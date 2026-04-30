@@ -1,10 +1,10 @@
 // ============================================
-// QUINT — Admin Dashboard JS
+// OBSIDIAN — Admin Dashboard JS
 // Products CRUD + Password Management
 // ============================================
 
 // ---- Auth Guard ----
-if (!sessionStorage.getItem('quint_auth')) {
+if (!sessionStorage.getItem('obsidian_auth')) {
   window.location.href = 'login.html';
 }
 
@@ -227,7 +227,7 @@ document.getElementById('change-pass-btn').addEventListener('click', () => {
   const confirm = document.getElementById('s-confirm').value;
   const msgEl = document.getElementById('security-message');
 
-  const storedPass = localStorage.getItem('quint_admin_pass') || 'quint2025';
+  const storedPass = localStorage.getItem('obsidian_admin_pass') || 'obsidian2025';
 
   if (current !== storedPass) {
     showMessage(msgEl, '✕ Current password is incorrect.', 'error');
@@ -244,7 +244,7 @@ document.getElementById('change-pass-btn').addEventListener('click', () => {
     return;
   }
 
-  localStorage.setItem('quint_admin_pass', newPass);
+  localStorage.setItem('obsidian_admin_pass', newPass);
   showMessage(msgEl, '✓ Password updated successfully.', 'success');
 
   document.getElementById('s-current').value = '';
@@ -254,7 +254,7 @@ document.getElementById('change-pass-btn').addEventListener('click', () => {
 
 // ---- Logout ----
 document.getElementById('logout-btn').addEventListener('click', () => {
-  sessionStorage.removeItem('quint_auth');
+  sessionStorage.removeItem('obsidian_auth');
   window.location.href = 'login.html';
 });
 

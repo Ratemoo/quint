@@ -1,5 +1,5 @@
 // ============================================
-// QUINT — Products Data
+// OBSIDIAN — Products Data
 // Edit via Admin Panel or directly here
 // ============================================
 
@@ -34,7 +34,7 @@ const DEFAULT_PRODUCTS = [
   },
   {
     id: 4,
-    name: "Quint Backpack Elite",
+    name: "Obsidian Backpack Elite",
     category: "bags",
     price: 78000,
     emoji: "🎒",
@@ -119,7 +119,7 @@ const DEFAULT_PRODUCTS = [
 
 // Load products from localStorage or fall back to defaults
 function getProducts() {
-  const stored = localStorage.getItem('quint_products');
+  const stored = localStorage.getItem('obsidian_products');
   if (stored) {
     try {
       return JSON.parse(stored);
@@ -132,10 +132,10 @@ function getProducts() {
 
 // Save products to localStorage
 function saveProducts(products) {
-  localStorage.setItem('quint_products', JSON.stringify(products));
+  localStorage.setItem('obsidian_products', JSON.stringify(products));
 }
 
 // Initialize if not set
-if (!localStorage.getItem('quint_products')) {
+if (!localStorage.getItem('obsidian_products')) {
   saveProducts(DEFAULT_PRODUCTS);
 }

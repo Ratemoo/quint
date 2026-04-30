@@ -1,11 +1,11 @@
 // ============================================
-// QUINT — Cart System
+// OBSIDIAN — Cart System
 // ============================================
 
-let cart = JSON.parse(localStorage.getItem('quint_cart') || '[]');
+let cart = JSON.parse(localStorage.getItem('obsidian_cart') || '[]');
 
 function saveCart() {
-  localStorage.setItem('quint_cart', JSON.stringify(cart));
+  localStorage.setItem('obsidian_cart', JSON.stringify(cart));
 }
 
 function addToCart(productId) {

@@ -1,5 +1,5 @@
 // ============================================
-// quint — Main JavaScript
+// OBSIDIAN — Main JavaScript
 // 3D Canvas, Animations, Products, Modal
 // ============================================
 

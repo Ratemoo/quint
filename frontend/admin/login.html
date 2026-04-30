@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QUINT ESSENTIALS — Admin Access</title>
+  <title>OBSIDIAN — Admin Access</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="admin.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,7 +20,7 @@
 
     <div class="login-box">
       <div class="login-logo">
-        <span class="logo-text">QUINT</span>
+        <span class="logo-text">OBSIDIAN</span>
         <span class="logo-sub">ADMIN PORTAL</span>
       </div>
 
@@ -105,10 +105,10 @@
     })();
 
     // ---- Auth ----
-    const DEFAULT_PASSWORD = 'quint2025';
+    const DEFAULT_PASSWORD = 'obsidian2025';
 
     function getPassword() {
-      return localStorage.getItem('quint_admin_pass') || DEFAULT_PASSWORD;
+      return localStorage.getItem('obsidian_admin_pass') || DEFAULT_PASSWORD;
     }
 
     document.getElementById('login-btn').addEventListener('click', attemptLogin);
@@ -125,7 +125,7 @@
         btnEl.textContent = 'Access Granted ✓';
         btnEl.style.background = '#1a1a1a';
         btnEl.style.color = '#c9a84c';
-        sessionStorage.setItem('quint_auth', 'true');
+        sessionStorage.setItem('obsidian_auth', 'true');
         setTimeout(() => {
           window.location.href = 'dashboard.html';
         }, 800);
