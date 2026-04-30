@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QUINT ESSENTIALS — Luxury Bags & Shoes</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- 3D Canvas Background -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-trail" id="cursor-trail"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">
+      <span class="logo-text">QUINT ESSENTIALS</span>
+      <span class="logo-sub">MAISON DE LUXE</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#home" class="nav-link">Home</a></li>
+      <li><a href="#bags" class="nav-link">Bags</a></li>
+      <li><a href="#shoes" class="nav-link">Shoes</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="cart-btn" id="cart-toggle">
+        <span class="cart-icon">◈</span>
+        <span class="cart-count" id="cart-count">0</span>
+      </button>
+      <a href="admin/login.html" class="admin-link">⟡ Admin</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <p class="hero-eyebrow">New Collection 2025</p>
+      <h1 class="hero-title">
+        <span class="line">DEFINE</span>
+        <span class="line italic">Your</span>
+        <span class="line">ELEGANCE</span>
+      </h1>
+      <p class="hero-sub">Curated luxury bags & shoes for the discerning few</p>
+      <div class="hero-cta">
+        <a href="#bags" class="btn-primary">Explore Collection</a>
+        <a href="#shoes" class="btn-ghost">View Shoes</a>
+      </div>
+    </div>
+    <div class="hero-3d">
+      <div class="floating-box box1"></div>
+      <div class="floating-box box2"></div>
+      <div class="floating-box box3"></div>
+      <div class="hero-sphere"></div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span>LUXURY</span><span>✦</span><span>ELEGANCE</span><span>✦</span>
+      <span>QUINT ESSENTIALS</span><span>✦</span><span>CRAFTED</span><span>✦</span>
+      <span>PRESTIGE</span><span>✦</span><span>REFINED</span><span>✦</span>
+      <span>LUXURY</span><span>✦</span><span>ELEGANCE</span><span>✦</span>
+      <span>QUINT ESSENTIALS</span><span>✦</span><span>CRAFTED</span><span>✦</span>
+      <span>PRESTIGE</span><span>✦</span><span>REFINED</span><span>✦</span>
+    </div>
+  </div>
+
+  <!-- BAGS SECTION -->
+  <section class="products-section" id="bags">
+    <div class="section-header">
+      <p class="section-eyebrow">The Collection</p>
+      <h2 class="section-title">BAGS</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="products-grid" id="bags-grid">
+      <!-- Populated by JS -->
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="section-divider">
+    <div class="divider-3d">
+      <div class="d3-ring ring1"></div>
+      <div class="d3-ring ring2"></div>
+      <div class="d3-ring ring3"></div>
+    </div>
+    <p class="divider-text">STEP INTO LUXURY</p>
+  </div>
+
+  <!-- SHOES SECTION -->
+  <section class="products-section" id="shoes">
+    <div class="section-header">
+      <p class="section-eyebrow">The Collection</p>
+      <h2 class="section-title">SHOES</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="products-grid" id="shoes-grid">
+      <!-- Populated by JS -->
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-section" id="about">
+    <div class="about-inner">
+      <div class="about-text">
+        <p class="section-eyebrow">Our Story</p>
+        <h2 class="about-title">CRAFTED FOR THE<br/><em>Extraordinary</em></h2>
+        <p class="about-body">
+          QUINT ESSENTIALS was born from a singular obsession — to create accessories that transcend trends. 
+          Each piece is a testament to meticulous craftsmanship, sourced from the world's finest 
+          ateliers and delivered to those who understand that true luxury is felt, not seen.
+        </p>
+        <p class="about-body">
+          Every bag. Every shoe. A statement. A legacy.
+        </p>
+      </div>
+      <div class="about-visual">
+        <div class="about-card">
+          <div class="about-card-inner">
+            <div class="stat">50+</div>
+            <div class="stat-label">Exclusive Pieces</div>
+          </div>
+        </div>
+        <div class="about-card shift">
+          <div class="about-card-inner">
+            <div class="stat">2+</div>
+            <div class="stat-label">Years of Mastery</div>
+          </div>
+        </div>
+        <div class="about-card shift2">
+          <div class="about-card-inner">
+            <div class="stat">2</div>
+            <div class="stat-label">Countries Served</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">QUINT ESSENTIALS</div>
+        <p>Where luxury meets legacy.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Collection</h4>
+        <a href="#bags">Bags</a>
+        <a href="#shoes">Shoes</a>
+      </div>
+      <div class="footer-links">
+        <h4>Company</h4>
+        <a href="#about">About</a>
+        <a href="admin/login.html">Admin Portal</a>
+      </div>
+      <div class="footer-links">
+        <h4>Contact</h4>
+        <a href="#">Nairobi, Kenya</a>
+        <a href="#">info@quint.co.ke</a>
+        <a href="#">+254705525427</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 QUINT ESSENTIALS. All rights reserved.</p>
+      <p class="footer-tag">MAISON DE LUXE</p>
+    </div>
+  </footer>
+
+  <!-- CART DRAWER -->
+  <div class="cart-drawer" id="cart-drawer">
+    <div class="cart-header">
+      <h3>YOUR SELECTION</h3>
+      <button id="cart-close">✕</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <p class="cart-empty">Your cart is empty.</p>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cart-total-price">KES 0</span>
+      </div>
+      <button class="btn-primary full-width">Proceed to Checkout</button>
+    </div>
+  </div>
+  <div class="overlay" id="overlay"></div>
+
+  <!-- PRODUCT MODAL -->
+  <div class="modal" id="product-modal">
+    <div class="modal-inner">
+      <button class="modal-close" id="modal-close">✕</button>
+      <div class="modal-image" id="modal-image"></div>
+      <div class="modal-details">
+        <p class="modal-category" id="modal-category"></p>
+        <h2 class="modal-name" id="modal-name"></h2>
+        <p class="modal-desc" id="modal-desc"></p>
+        <p class="modal-price" id="modal-price"></p>
+        <button class="btn-primary" id="modal-add-cart">Add to Selection</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

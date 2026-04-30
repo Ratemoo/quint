@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QUINT ESSENTIALS — Admin Access</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet" />
+</head>
+<body class="admin-body">
+
+  <canvas id="bg-canvas"></canvas>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-trail" id="cursor-trail"></div>
+
+  <div class="login-container">
+    <div class="login-decoration"></div>
+
+    <div class="login-box">
+      <div class="login-logo">
+        <span class="logo-text">QUINT</span>
+        <span class="logo-sub">ADMIN PORTAL</span>
+      </div>
+
+      <div class="login-divider"></div>
+
+      <p class="login-subtitle">Restricted Access. Enter your credentials.</p>
+
+      <div class="login-form">
+        <div class="form-group">
+          <label class="form-label">ACCESS CODE</label>
+          <input
+            type="password"
+            id="password-input"
+            class="form-input"
+            placeholder="••••••••"
+            autocomplete="off"
+          />
+          <div class="input-line"></div>
+        </div>
+
+        <div id="login-error" class="login-error" style="display:none">
+          ✕ Invalid access code. Try again.
+        </div>
+
+        <button class="btn-primary admin-submit" id="login-btn">
+          Enter Portal
+        </button>
+      </div>
+
+      <div class="login-back">
+        <a href="../index.html">← Return to Store</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---- Cursor ----
+    const cursor = document.getElementById('cursor');
+    const trail = document.getElementById('cursor-trail');
+    let mx = 0, my = 0, tx = 0, ty = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    });
+    (function animT() {
+      tx += (mx - tx) * 0.15; ty += (my - ty) * 0.15;
+      trail.style.left = tx + 'px'; trail.style.top = ty + 'px';
+      requestAnimationFrame(animT);
+    })();
+
+    // ---- Canvas ----
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+    const pts = Array.from({length: 40}, () => ({
+      x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+      vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4,
+      life: Math.random()*Math.PI*2
+    }));
+
+    (function draw() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      pts.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.life += 0.015;
+        if (p.x<0) p.x=canvas.width; if (p.x>canvas.width) p.x=0;
+        if (p.y<0) p.y=canvas.height; if (p.y>canvas.height) p.y=0;
+        pts.forEach(q => {
+          const d = Math.hypot(q.x-p.x, q.y-p.y);
+          if (d < 100) {
+            ctx.strokeStyle = `rgba(255,255,255,${(1-d/100)*0.06})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+          }
+        });
+        ctx.beginPath(); ctx.arc(p.x,p.y,1.5,0,Math.PI*2);
+        ctx.fillStyle = `rgba(255,255,255,${0.1*(0.5+0.5*Math.sin(p.life))})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    })();
+
+    // ---- Auth ----
+    const DEFAULT_PASSWORD = 'quint2025';
+
+    function getPassword() {
+      return localStorage.getItem('quint_admin_pass') || DEFAULT_PASSWORD;
+    }
+
+    document.getElementById('login-btn').addEventListener('click', attemptLogin);
+    document.getElementById('password-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') attemptLogin();
+    });
+
+    function attemptLogin() {
+      const input = document.getElementById('password-input').value;
+      const errorEl = document.getElementById('login-error');
+      const btnEl = document.getElementById('login-btn');
+
+      if (input === getPassword()) {
+        btnEl.textContent = 'Access Granted ✓';
+        btnEl.style.background = '#1a1a1a';
+        btnEl.style.color = '#c9a84c';
+        sessionStorage.setItem('quint_auth', 'true');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 800);
+      } else {
+        errorEl.style.display = 'block';
+        document.getElementById('password-input').value = '';
+        document.getElementById('password-input').classList.add('shake');
+        setTimeout(() => {
+          document.getElementById('password-input').classList.remove('shake');
+          errorEl.style.display = 'none';
+        }, 2000);
+      }
+    }
+  </script>
+</body>
+</html>

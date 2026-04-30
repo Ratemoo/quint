@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QUINT — Admin Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet" />
+</head>
+<body class="admin-body dashboard-body">
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-trail" id="cursor-trail"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-text" style="font-size:22px;letter-spacing:6px;">QUINT</span>
+      <span class="logo-sub">ADMIN</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-link active" data-tab="products">⬡ Products</a>
+      <a class="sidebar-link" data-tab="add">⊕ Add Product</a>
+      <a class="sidebar-link" data-tab="security">⟡ Security</a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="../index.html" class="sidebar-back">← View Store</a>
+      <button id="logout-btn" class="sidebar-logout">Logout</button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="dashboard-main">
+
+    <!-- HEADER -->
+    <div class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">Dashboard</h1>
+        <p class="dashboard-sub">Manage your QUINT collection</p>
+      </div>
+      <div class="dashboard-stats">
+        <div class="stat-pill">
+          <span class="stat-num" id="stat-total">—</span>
+          <span class="stat-label">Total Products</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num" id="stat-bags">—</span>
+          <span class="stat-label">Bags</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num" id="stat-shoes">—</span>
+          <span class="stat-label">Shoes</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: PRODUCTS LIST -->
+    <div class="tab-content active" id="tab-products">
+      <div class="tab-toolbar">
+        <h2 class="tab-title">All Products</h2>
+        <div class="filter-tabs">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="bags">Bags</button>
+          <button class="filter-btn" data-filter="shoes">Shoes</button>
+        </div>
+      </div>
+      <div class="admin-table-wrapper">
+        <table class="admin-table" id="products-table">
+          <thead>
+            <tr>
+              <th>Icon</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price (KES)</th>
+              <th>Tag</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="products-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB: ADD PRODUCT -->
+    <div class="tab-content" id="tab-add">
+      <h2 class="tab-title" id="form-title">Add New Product</h2>
+      <div class="product-form" id="product-form">
+        <input type="hidden" id="edit-id" />
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Product Name</label>
+            <input type="text" id="f-name" class="form-input" placeholder="e.g. Noir Tote Classique" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="f-category" class="form-input form-select">
+              <option value="bags">Bags</option>
+              <option value="shoes">Shoes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Price (KES)</label>
+            <input type="number" id="f-price" class="form-input" placeholder="e.g. 45000" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Emoji Icon</label>
+            <input type="text" id="f-emoji" class="form-input" placeholder="e.g. 👜" maxlength="4" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tag (Optional)</label>
+          <select id="f-tag" class="form-input form-select">
+            <option value="">None</option>
+            <option value="New">New</option>
+            <option value="Bestseller">Bestseller</option>
+            <option value="Limited">Limited</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea id="f-description" class="form-input form-textarea" placeholder="Describe this product..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-primary" id="save-product-btn">Save Product</button>
+          <button class="btn-ghost" id="cancel-edit-btn" style="display:none">Cancel Edit</button>
+        </div>
+
+        <div id="form-message" class="form-message" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- TAB: SECURITY -->
+    <div class="tab-content" id="tab-security">
+      <h2 class="tab-title">Change Password</h2>
+      <div class="product-form" style="max-width:480px">
+
+        <div class="form-group">
+          <label class="form-label">Current Password</label>
+          <input type="password" id="s-current" class="form-input" placeholder="••••••••" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">New Password</label>
+          <input type="password" id="s-new" class="form-input" placeholder="Min. 8 characters" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Confirm New Password</label>
+          <input type="password" id="s-confirm" class="form-input" placeholder="Repeat new password" />
+        </div>
+
+        <div id="security-message" class="form-message" style="display:none"></div>
+
+        <button class="btn-primary" id="change-pass-btn">Update Password</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- DELETE CONFIRM MODAL -->
+  <div class="delete-modal" id="delete-modal">
+    <div class="delete-modal-box">
+      <h3>CONFIRM DELETE</h3>
+      <p id="delete-modal-name"></p>
+      <p class="delete-warning">This action cannot be undone.</p>
+      <div class="delete-modal-actions">
+        <button class="btn-ghost" id="delete-cancel">Cancel</button>
+        <button class="btn-danger" id="delete-confirm">Delete</button>
+      </div>
+    </div>
+  </div>
+  <div class="overlay" id="overlay"></div>
+
+  <script src="../js/products.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>
