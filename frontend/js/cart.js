@@ -1,28 +1,17 @@
-// ============================================
-// OBSIDIAN — Cart System
-// ============================================
+// // ============================================
+// // QUINT ESSENTIALS— Cart System
+// // ============================================
 
-let cart = JSON.parse(localStorage.getItem('obsidian_cart') || '[]');
+let cart = JSON.parse(localStorage.getItem('quint_cart') || '[]');
 
 function saveCart() {
-  localStorage.setItem('obsidian_cart', JSON.stringify(cart));
+  localStorage.setItem('quint_cart', JSON.stringify(cart));
 }
 
 function addToCart(productId) {
-  const products = getProducts();
-  const product = products.find(p => p.id === productId);
-  if (!product) return;
-
-  const existing = cart.find(i => i.id === productId);
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    cart.push({ ...product, qty: 1 });
-  }
-
-  saveCart();
-  renderCart();
-  openCart();
+  // HARD DISABLE
+  console.warn("Cart is disabled");
+  return;
 }
 
 function removeFromCart(productId) {
@@ -36,7 +25,7 @@ function renderCart() {
   const countEl = document.getElementById('cart-count');
   const totalEl = document.getElementById('cart-total-price');
 
-  if (!container) return;
+    if (!container) return;
 
   const totalQty = cart.reduce((s, i) => s + i.qty, 0);
   const totalPrice = cart.reduce((s, i) => s + i.price * i.qty, 0);
@@ -44,19 +33,19 @@ function renderCart() {
   countEl.textContent = totalQty;
   totalEl.textContent = `KES ${totalPrice.toLocaleString()}`;
 
-  if (cart.length === 0) {
-    container.innerHTML = '<p class="cart-empty">Your cart is empty.</p>';
+    if (cart.length === 0) {
+      container.innerHTML = '<p class="cart-empty">Your cart is empty.</p>';
     return;
-  }
+    }
 
   container.innerHTML = cart.map(item => `
     <div class="cart-item">
-      <div class="cart-item-icon">${item.emoji}</div>
-      <div class="cart-item-details">
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-price">KES ${item.price.toLocaleString()} × ${item.qty}</div>
-      </div>
-      <button class="cart-item-remove" onclick="removeFromCart(${item.id})">✕</button>
+    <div class="cart-item-icon">${item.emoji}</div>
+    <div class="cart-item-details">
+    <div class="cart-item-name">${item.name}</div>
+    <div class="cart-item-price">KES ${item.price.toLocaleString()} × ${item.qty}</div>
+    </div>
+    <button class="cart-item-remove" onclick="removeFromCart(${item.id})">✕</button>
     </div>
   `).join('');
 }
@@ -72,13 +61,7 @@ function closeCart() {
 }
 
 // Initialize
+// DISABLED: Cart system initialization
 document.addEventListener('DOMContentLoaded', () => {
-  renderCart();
-
-  document.getElementById('cart-toggle').addEventListener('click', openCart);
-  document.getElementById('cart-close').addEventListener('click', closeCart);
-  document.getElementById('overlay').addEventListener('click', () => {
-    closeCart();
-    closeModal();
-  });
+  console.log("Cart system disabled");
 });

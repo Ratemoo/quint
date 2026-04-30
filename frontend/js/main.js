@@ -1,5 +1,5 @@
 // ============================================
-// OBSIDIAN — Main JavaScript
+// QUINT ESSENTIALS— Main JavaScript
 // 3D Canvas, Animations, Products, Modal
 // ============================================
 
@@ -218,14 +218,16 @@ function renderGrid(containerId, products) {
           <div class="product-price">KES ${p.price.toLocaleString()}</div>
         </div>
         <div class="product-3d-border"></div>
-        <div class="product-overlay" onclick="addToCart(${p.id})">Add to Selection</div>
+        <div class="product-overlay">
+          View Details
+        </div>
       </div>
     `).join('');
 
   // Attach click events for modal
   container.querySelectorAll('.product-card').forEach(card => {
     card.addEventListener('click', (e) => {
-      if (e.target.classList.contains('product-overlay')) return;
+      // if (e.target.classList.contains('product-overlay')) return;
       const id = parseInt(card.dataset.id);
       openModal(id);
     });
@@ -267,12 +269,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('modal-close').addEventListener('click', closeModal);
 
-  document.getElementById('modal-add-cart').addEventListener('click', () => {
-    if (currentModalProduct) {
-      addToCart(currentModalProduct.id);
-      closeModal();
-    }
-  });
+ // DISABLED: Cart functionality (Client request - April 2026)
+document.getElementById('modal-add-cart').addEventListener('click', () => {
+  alert("Ordering is currently unavailable. Please check back soon.");
+});
 
   // Observe section headers
   document.querySelectorAll('.section-header, .about-text, .about-visual').forEach(el => {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OBSIDIAN — Admin Access</title>
+  <title>QUINT ESSENTIALS — Admin Access</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="admin.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,7 +20,7 @@
 
     <div class="login-box">
       <div class="login-logo">
-        <span class="logo-text">OBSIDIAN</span>
+        <span class="logo-text">QUINT ESSENTIALS</span>
         <span class="logo-sub">ADMIN PORTAL</span>
       </div>
 
@@ -105,40 +105,26 @@
     })();
 
     // ---- Auth ----
-    const DEFAULT_PASSWORD = 'obsidian2025';
-
-    function getPassword() {
-      return localStorage.getItem('obsidian_admin_pass') || DEFAULT_PASSWORD;
-    }
-
-    document.getElementById('login-btn').addEventListener('click', attemptLogin);
-    document.getElementById('password-input').addEventListener('keydown', e => {
-      if (e.key === 'Enter') attemptLogin();
-    });
-
-    function attemptLogin() {
+    
+    async function attemptLogin() {
       const input = document.getElementById('password-input').value;
-      const errorEl = document.getElementById('login-error');
-      const btnEl = document.getElementById('login-btn');
 
-      if (input === getPassword()) {
-        btnEl.textContent = 'Access Granted ✓';
-        btnEl.style.background = '#1a1a1a';
-        btnEl.style.color = '#c9a84c';
-        sessionStorage.setItem('obsidian_auth', 'true');
-        setTimeout(() => {
-          window.location.href = 'dashboard.html';
-        }, 800);
+      const res = await fetch('http://localhost:3000/api/admin/login', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({password: input})
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem('admin_token', data.token);
+        sessionStorage.setItem('quint_auth', 'true');
+        window.location.href = 'dashboard.html';
       } else {
-        errorEl.style.display = 'block';
-        document.getElementById('password-input').value = '';
-        document.getElementById('password-input').classList.add('shake');
-        setTimeout(() => {
-          document.getElementById('password-input').classList.remove('shake');
-          errorEl.style.display = 'none';
-        }, 2000);
+        document.getElementById('login-error').style.display = 'block';
       }
     }
+
   </script>
 </body>
 </html>

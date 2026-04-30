@@ -1,5 +1,5 @@
 // ============================================
-// OBSIDIAN — Seed Script
+// QUINT ESSENTIALS — Seed Script
 // Run: node seed.js
 // Populates the DB with the 12 default products
 // ============================================

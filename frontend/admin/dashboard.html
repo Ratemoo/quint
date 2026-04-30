@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OBSIDIAN — Admin Dashboard</title>
+  <title>QUINT — Admin Dashboard</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="admin.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,7 +17,7 @@
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-logo">
-      <span class="logo-text" style="font-size:22px;letter-spacing:6px;">OBSIDIAN</span>
+      <span class="logo-text" style="font-size:22px;letter-spacing:6px;">QUINT</span>
       <span class="logo-sub">ADMIN</span>
     </div>
 
@@ -40,7 +40,7 @@
     <div class="dashboard-header">
       <div>
         <h1 class="dashboard-title">Dashboard</h1>
-        <p class="dashboard-sub">Manage your OBSIDIAN collection</p>
+        <p class="dashboard-sub">Manage your QUINT collection</p>
       </div>
       <div class="dashboard-stats">
         <div class="stat-pill">
@@ -111,8 +111,13 @@
             <input type="number" id="f-price" class="form-input" placeholder="e.g. 45000" />
           </div>
           <div class="form-group">
-            <label class="form-label">Emoji Icon</label>
-            <input type="text" id="f-emoji" class="form-input" placeholder="e.g. 👜" maxlength="4" />
+            <label class="form-label">Images</label>
+            <input type="file" id="f-image" />
+            <button id="save-product-btn">Save Product</button>
+
+            <table>
+              <tbody id="products-tbody"></tbody>
+            </table>
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 // ============================================
-// OBSIDIAN — Products Data
+// QUINT ESSENTIALS — Products Data
 // Edit via Admin Panel or directly here
 // ============================================
 
@@ -118,24 +118,44 @@ const DEFAULT_PRODUCTS = [
 ];
 
 // Load products from localStorage or fall back to defaults
-function getProducts() {
-  const stored = localStorage.getItem('obsidian_products');
-  if (stored) {
-    try {
-      return JSON.parse(stored);
-    } catch(e) {
-      return DEFAULT_PRODUCTS;
-    }
-  }
-  return DEFAULT_PRODUCTS;
+const API_URL = 'http://localhost:3000/api';
+const token = sessionStorage.getItem('quint_token');
+
+async function fetchProducts() {
+  const res = await fetch(`${API_URL}/products`);
+  const data = await res.json();
+  return data.products;
 }
 
-// Save products to localStorage
-function saveProducts(products) {
-  localStorage.setItem('obsidian_products', JSON.stringify(products));
+async function createProduct(product) {
+  const res = await fetch(`${API_URL}/products`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-admin-token': token
+    },
+    body: JSON.stringify(product)
+  });
+
+  return await res.json();
 }
 
-// Initialize if not set
-if (!localStorage.getItem('obsidian_products')) {
-  saveProducts(DEFAULT_PRODUCTS);
+async function updateProduct(id, product) {
+  const res = await fetch(`${API_URL}/products/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-admin-token': token
+    },
+    body: JSON.stringify(product)
+  });
+
+  return await res.json();
+}
+
+async function deleteProduct(id) {
+  await fetch(`${API_URL}/products/${id}`, {
+    method: 'DELETE',
+    headers: { 'x-admin-token': token }
+  });
 }

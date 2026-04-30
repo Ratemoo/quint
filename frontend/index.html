@@ -3,12 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OBSIDIAN — Luxury Bags & Shoes</title>
+  <title>QUINT ESSENTIALS — Luxury Bags & Shoes</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet" />
 </head>
 <body>
+
+  <!-- TOP NOTICE BAR -->
+<div style="
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #000;
+  color: #fff;
+  text-align: center;
+  padding: 6px 10px;
+  font-size: 13px;
+  z-index: 9999;
+  letter-spacing: 0.5px;
+">
+  📍 Pickup Station: Nairobi CBD | 🚚 Delivery Countrywide
+</div>
 
   <!-- 3D Canvas Background -->
   <canvas id="bg-canvas"></canvas>
@@ -20,7 +36,7 @@
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
     <div class="nav-logo">
-      <span class="logo-text">OBSIDIAN</span>
+      <span class="logo-text">QUINT COLLECTIONS</span>
       <span class="logo-sub">MAISON DE LUXE</span>
     </div>
     <ul class="nav-links">
@@ -31,10 +47,11 @@
       <li><a href="#contact" class="nav-link">Contact</a></li>
     </ul>
     <div class="nav-actions">
-      <button class="cart-btn" id="cart-toggle">
+      <!-- Disabled Cart -->
+      <!-- <button class="cart-btn" id="cart-toggle">
         <span class="cart-icon">◈</span>
         <span class="cart-count" id="cart-count">0</span>
-      </button>
+      </button> -->
       <a href="admin/login.html" class="admin-link">⟡ Admin</a>
     </div>
   </nav>
@@ -70,10 +87,10 @@
   <div class="marquee-strip">
     <div class="marquee-track">
       <span>LUXURY</span><span>✦</span><span>ELEGANCE</span><span>✦</span>
-      <span>OBSIDIAN</span><span>✦</span><span>CRAFTED</span><span>✦</span>
+      <span>QUINT COLLECTIONS</span><span>✦</span><span>CRAFTED</span><span>✦</span>
       <span>PRESTIGE</span><span>✦</span><span>REFINED</span><span>✦</span>
       <span>LUXURY</span><span>✦</span><span>ELEGANCE</span><span>✦</span>
-      <span>OBSIDIAN</span><span>✦</span><span>CRAFTED</span><span>✦</span>
+      <span>QUINT COLLECTIONS</span><span>✦</span><span>CRAFTED</span><span>✦</span>
       <span>PRESTIGE</span><span>✦</span><span>REFINED</span><span>✦</span>
     </div>
   </div>
@@ -119,7 +136,7 @@
         <p class="section-eyebrow">Our Story</p>
         <h2 class="about-title">CRAFTED FOR THE<br/><em>Extraordinary</em></h2>
         <p class="about-body">
-          OBSIDIAN was born from a singular obsession — to create accessories that transcend trends. 
+          QUINT COLLECTIONS was born from a singular obsession — to create accessories that transcend trends. 
           Each piece is a testament to meticulous craftsmanship, sourced from the world's finest 
           ateliers and delivered to those who understand that true luxury is felt, not seen.
         </p>
@@ -130,19 +147,19 @@
       <div class="about-visual">
         <div class="about-card">
           <div class="about-card-inner">
-            <div class="stat">500+</div>
+            <div class="stat">100+</div>
             <div class="stat-label">Exclusive Pieces</div>
           </div>
         </div>
         <div class="about-card shift">
           <div class="about-card-inner">
-            <div class="stat">10+</div>
+            <div class="stat">2+</div>
             <div class="stat-label">Years of Mastery</div>
           </div>
         </div>
         <div class="about-card shift2">
           <div class="about-card-inner">
-            <div class="stat">50+</div>
+            <div class="stat">2+</div>
             <div class="stat-label">Countries Served</div>
           </div>
         </div>
@@ -172,14 +189,14 @@
             <span class="contact-icon">◎</span>
             <div>
               <div class="contact-detail-label">Email</div>
-              <div class="contact-detail-value">info@obsidian.co.ke</div>
+              <div class="contact-detail-value">quintermokeira.a@gmail.com</div>
             </div>
           </div>
           <div class="contact-item">
             <span class="contact-icon">◎</span>
             <div>
               <div class="contact-detail-label">Phone / WhatsApp</div>
-              <div class="contact-detail-value">+254 700 000 000</div>
+              <div class="contact-detail-value">+254705525427</div>
             </div>
           </div>
           <div class="contact-item">
@@ -237,7 +254,7 @@
   <footer class="footer">
     <div class="footer-top">
       <div class="footer-brand">
-        <div class="footer-logo">OBSIDIAN</div>
+        <div class="footer-logo">QUINT ESSENTIALS</div>
         <p>Where luxury meets legacy.</p>
       </div>
       <div class="footer-links">
@@ -254,11 +271,11 @@
       <div class="footer-links">
         <h4>Contact</h4>
         <a href="#">Nairobi, Kenya</a>
-        <a href="#">info@obsidian.co.ke</a>
+        <a href="#">quintermokeira.a@gmail.com</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 OBSIDIAN. All rights reserved.</p>
+      <p>© 2025 QUINT ESSENTIALS. All rights reserved.</p>
       <p class="footer-tag">MAISON DE LUXE</p>
     </div>
   </footer>
@@ -277,7 +294,10 @@
         <span>Total</span>
         <span id="cart-total-price">KES 0</span>
       </div>
-      <button class="btn-primary full-width">Proceed to Checkout</button>
+      <!-- DISABLED: Checkout -->
+    <button class="btn-primary full-width" disabled style="opacity:0.5; cursor:not-allowed;">
+      Checkout Unavailable
+    </button>
     </div>
   </div>
   <div class="overlay" id="overlay"></div>
@@ -292,13 +312,16 @@
         <h2 class="modal-name" id="modal-name"></h2>
         <p class="modal-desc" id="modal-desc"></p>
         <p class="modal-price" id="modal-price"></p>
-        <button class="btn-primary" id="modal-add-cart">Add to Selection</button>
+        <!-- DISABLED: Add to cart -->
+      <button class="btn-primary" disabled style="opacity:0.5; cursor:not-allowed;">
+        Ordering Coming Soon
+      </button>
       </div>
     </div>
   </div>
 
   <script src="js/products.js"></script>
-  <script src="js/cart.js"></script>
+  <!-- <script src="js/cart.js"></script> -->
   <script src="js/main.js"></script>
   <script>
     function handleContactForm(e) {

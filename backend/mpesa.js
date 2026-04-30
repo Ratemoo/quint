@@ -1,5 +1,5 @@
 // ============================================
-// OBSIDIAN — M-Pesa Daraja API Service
+// QUINT ESSENTIALS — M-Pesa Daraja API Service
 // Handles OAuth token + STK Push
 // ============================================
 
@@ -71,8 +71,8 @@ async function stkPush({ phone, amount, orderId, description }) {
     PartyB: process.env.MPESA_SHORTCODE,       // Your shortcode
     PhoneNumber: normalizedPhone,
     CallBackURL: process.env.MPESA_CALLBACK_URL,
-    AccountReference: `OBSIDIAN-${orderId}`,
-    TransactionDesc: description || 'OBSIDIAN Purchase',
+    AccountReference: `quint-${orderId}`,
+    TransactionDesc: description || 'QUINT ESSENTIALS Purchase',
   };
 
   const response = await axios.post(
