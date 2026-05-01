@@ -47,12 +47,20 @@ app.use(helmet({
 }));
 
 // 2. CORS
-const allowedOrigins = (process.env.FRONTEND_URL || 'http://127.0.0.1:5500').split(',').map(o => o.trim());
+const allowedOrigins = (process.env.FRONTEND_URL || 'http://127.0.0.1:5500')
+  .split(',')
+  .map(o => o.trim());
+
 app.use(cors({
   origin: (origin, cb) => {
-    if (!origin && process.env.NODE_ENV !== 'production') return cb(null, true);
-    if (allowedOrigins.includes(origin)) return cb(null, true);
-    cb(new Error(`CORS: origin ${origin} not allowed`));
+    // ✅ Always allow requests with no origin (Postman, server-to-server, health checks)
+    if (!origin) return cb(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return cb(null, true);
+    }
+
+    return cb(new Error(`CORS: origin ${origin} not allowed`));
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'X-Admin-Token'],
@@ -506,10 +514,10 @@ app.use((err, _req, res, _next) => {
 // ============================================================
 // START
 // ============================================================
-app.listen(PORT, '127.0.0.1', () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log('');
   console.log('  🖤  QUINT ESSENTIALS Backend v3');
-  console.log(`  ✓   http://127.0.0.1:${PORT}`);
+  console.log(`  ✓   http://0.0.0.0:${PORT}`);
   console.log(`  ✓   CORS: ${allowedOrigins.join(', ')}`);
   console.log(`  ✓   Uploads: ${UPLOAD_DIR}`);
   console.log('');
