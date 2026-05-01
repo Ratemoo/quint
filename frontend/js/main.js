@@ -1,260 +1,228 @@
 // ============================================
-// QUINT ESSENTIALS— Main JavaScript
-// 3D Canvas, Animations, Products, Modal
+// OBSIDIAN — Main JS
+// Renders products with real images from API
 // ============================================
 
-// -------- CUSTOM CURSOR --------
-const cursor = document.getElementById('cursor');
-const trail = document.getElementById('cursor-trail');
-let mouseX = 0, mouseY = 0;
-let trailX = 0, trailY = 0;
+const API_BASE = OBSIDIAN_CONFIG.API_BASE;
+
+// ============ CUSTOM CURSOR ============
+const cursor      = document.getElementById('cursor');
+const cursorTrail = document.getElementById('cursor-trail');
+let mouseX = 0, mouseY = 0, trailX = 0, trailY = 0;
 
 document.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  cursor.style.left = mouseX + 'px';
-  cursor.style.top = mouseY + 'px';
+  mouseX = e.clientX; mouseY = e.clientY;
+  cursor.style.left = mouseX + 'px'; cursor.style.top = mouseY + 'px';
+});
+(function animTrail() {
+  trailX += (mouseX - trailX) * 0.15; trailY += (mouseY - trailY) * 0.15;
+  cursorTrail.style.left = trailX + 'px'; cursorTrail.style.top = trailY + 'px';
+  requestAnimationFrame(animTrail);
+})();
+
+document.addEventListener('mouseover', e => {
+  if (e.target.closest('a, button, .product-card')) {
+    cursor.style.width = '6px'; cursor.style.height = '6px';
+    cursorTrail.style.width = '60px'; cursorTrail.style.height = '60px';
+  } else {
+    cursor.style.width = '12px'; cursor.style.height = '12px';
+    cursorTrail.style.width = '36px'; cursorTrail.style.height = '36px';
+  }
 });
 
-function animateTrail() {
-  trailX += (mouseX - trailX) * 0.15;
-  trailY += (mouseY - trailY) * 0.15;
-  trail.style.left = trailX + 'px';
-  trail.style.top = trailY + 'px';
-  requestAnimationFrame(animateTrail);
-}
-animateTrail();
-
-// Cursor effects
-document.querySelectorAll('a, button, .product-card').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.width = '6px';
-    cursor.style.height = '6px';
-    trail.style.width = '60px';
-    trail.style.height = '60px';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.width = '12px';
-    cursor.style.height = '12px';
-    trail.style.width = '36px';
-    trail.style.height = '36px';
-  });
-});
-
-// -------- 3D CANVAS BACKGROUND --------
+// ============ 3D CANVAS BACKGROUND ============
 const canvas = document.getElementById('bg-canvas');
-const ctx = canvas.getContext('2d');
+const ctx    = canvas.getContext('2d');
+let pts = [];
 
-let particles = [];
-let gridPoints = [];
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  initGrid();
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+function initPts() {
+  pts = Array.from({ length: 60 }, () => ({
+    x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+    ox: 0, oy: 0,
+    vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
+    size: Math.random() * 1.5 + 0.5, life: Math.random() * Math.PI * 2,
+  }));
+  pts.forEach(p => { p.ox = p.x; p.oy = p.y; });
 }
-
-function initGrid() {
-  gridPoints = [];
-  const cols = Math.ceil(canvas.width / 80) + 1;
-  const rows = Math.ceil(canvas.height / 80) + 1;
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      gridPoints.push({
-        x: c * 80,
-        y: r * 80,
-        ox: c * 80,
-        oy: r * 80,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        size: Math.random() * 1.5 + 0.5,
-        opacity: Math.random() * 0.3 + 0.05
-      });
-    }
-  }
-}
-
-function initParticles() {
-  particles = [];
-  for (let i = 0; i < 60; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      size: Math.random() * 2 + 0.5,
-      opacity: Math.random() * 0.4 + 0.05,
-      life: Math.random() * Math.PI * 2
-    });
-  }
-}
-
-let frame = 0;
 function drawCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  frame++;
-
-  // Subtle gradient base
-  const grad = ctx.createRadialGradient(
-    canvas.width * 0.5, canvas.height * 0.3, 0,
-    canvas.width * 0.5, canvas.height * 0.5, canvas.width * 0.8
-  );
-  grad.addColorStop(0, 'rgba(25,25,25,0.4)');
-  grad.addColorStop(1, 'rgba(0,0,0,0)');
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  // Draw grid connections
-  ctx.lineWidth = 0.3;
-  for (let i = 0; i < gridPoints.length; i++) {
-    const p = gridPoints[i];
-    p.x += p.vx;
-    p.y += p.vy;
-    p.life = (p.life || 0) + 0.008;
-
-    // Drift back gently
-    p.vx += (p.ox - p.x) * 0.0005;
-    p.vy += (p.oy - p.y) * 0.0005;
-    p.vx *= 0.99;
-    p.vy *= 0.99;
-
+  pts.forEach((p, i) => {
+    p.life += 0.008;
+    p.vx += (p.ox - p.x) * 0.0005; p.vy += (p.oy - p.y) * 0.0005;
+    p.vx *= 0.99; p.vy *= 0.99; p.x += p.vx; p.y += p.vy;
     const pulse = 0.5 + 0.5 * Math.sin(p.life);
-
-    for (let j = i + 1; j < gridPoints.length; j++) {
-      const q = gridPoints[j];
-      const dx = q.x - p.x;
-      const dy = q.y - p.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-
-      if (dist < 120) {
-        const alpha = (1 - dist / 120) * 0.08 * pulse;
-        ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(q.x, q.y);
-        ctx.stroke();
+    for (let j = i + 1; j < pts.length; j++) {
+      const q = pts[j], d = Math.hypot(q.x - p.x, q.y - p.y);
+      if (d < 120) {
+        ctx.strokeStyle = `rgba(255,255,255,${(1 - d / 120) * 0.07 * pulse})`;
+        ctx.lineWidth = 0.3;
+        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
       }
     }
-
-    // Draw dot
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size * pulse, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255,255,255,${p.opacity * pulse})`;
-    ctx.fill();
-  }
-
-  // Draw floating particles
-  particles.forEach(p => {
-    p.x += p.vx;
-    p.y += p.vy;
-    p.life += 0.02;
-
-    if (p.x < 0) p.x = canvas.width;
-    if (p.x > canvas.width) p.x = 0;
-    if (p.y < 0) p.y = canvas.height;
-    if (p.y > canvas.height) p.y = 0;
-
-    const pulse = 0.5 + 0.5 * Math.sin(p.life);
-
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size * pulse, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(201,168,76,${p.opacity * 0.3 * pulse})`;
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.size * pulse, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${p.size * 0.08 * pulse})`; ctx.fill();
   });
-
   requestAnimationFrame(drawCanvas);
 }
+window.addEventListener('resize', () => { resizeCanvas(); initPts(); });
+resizeCanvas(); initPts(); drawCanvas();
 
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-initParticles();
-drawCanvas();
-
-// -------- NAVBAR SCROLL --------
+// ============ NAVBAR SCROLL ============
 const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 80) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
-});
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 80));
 
-// -------- SCROLL REVEAL --------
-const observer = new IntersectionObserver((entries) => {
+// ============ SCROLL REVEAL ============
+const revealObserver = new IntersectionObserver(entries => {
   entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        entry.target.classList.add('visible');
-      }, i * 80);
-    }
+    if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 80);
   });
 }, { threshold: 0.1 });
 
-// -------- RENDER PRODUCTS --------
-function renderProducts() {
-  const products = getProducts();
-  const bags = products.filter(p => p.category === 'bags');
-  const shoes = products.filter(p => p.category === 'shoes');
-
-  renderGrid('bags-grid', bags);
-  renderGrid('shoes-grid', shoes);
-}
-
-function renderGrid(containerId, products) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-
-  container.innerHTML = products.length === 0
-    ? '<p style="color:var(--mid-grey);letter-spacing:2px;font-size:12px;text-align:center;padding:60px;grid-column:1/-1;">No products yet. Check back soon.</p>'
-    : products.map(p => `
-      <div class="product-card fade-in-up" data-id="${p.id}">
-        <div class="product-image">
-          <div class="product-emoji">${p.emoji}</div>
-        </div>
-        <div class="product-info">
-          <div class="product-category">${p.category} ${p.tag ? `· <span style="color:var(--white)">${p.tag}</span>` : ''}</div>
-          <div class="product-name">${p.name}</div>
-          <div class="product-price">KES ${p.price.toLocaleString()}</div>
-        </div>
-        <div class="product-3d-border"></div>
-        <div class="product-overlay">
-          View Details
-        </div>
-      </div>
-    `).join('');
-
-  // Attach click events for modal
-  container.querySelectorAll('.product-card').forEach(card => {
-    card.addEventListener('click', (e) => {
-      // if (e.target.classList.contains('product-overlay')) return;
-      const id = parseInt(card.dataset.id);
-      openModal(id);
-    });
-  });
-
-  // Observe for scroll reveal
-  container.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
-}
-
-// -------- PRODUCT MODAL --------
+// ============ PRODUCTS ============
+let allProducts = [];
 let currentModalProduct = null;
 
-function openModal(productId) {
-  const products = getProducts();
-  const product = products.find(p => p.id === productId);
-  if (!product) return;
+async function loadProducts() {
+  try {
+    const data = await API.getProducts();
+    allProducts = Array.isArray(data.products) ? data.products : [];
+    renderGrid('bags-grid',  allProducts.filter(p => p.category === 'bags'));
+    renderGrid('shoes-grid', allProducts.filter(p => p.category === 'shoes'));
+  } catch {
+    ['bags-grid','shoes-grid'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = `<p class="products-error">Could not load products. Please refresh.</p>`;
+    });
+  }
+}
 
+// Build the product image element (real image or placeholder)
+function buildProductImageEl(product) {
+  const wrap = document.createElement('div');
+  wrap.className = 'product-image';
+  wrap.setAttribute('aria-hidden', 'true');
+
+  if (product.image_url) {
+    const img = document.createElement('img');
+    img.src   = `${API_BASE}${product.image_url}`;
+    img.alt   = product.name;
+    img.className = 'product-img';
+    img.loading   = 'lazy';
+    img.decoding  = 'async';
+    // Graceful fallback if image fails to load
+    img.onerror = () => {
+      wrap.innerHTML = '';
+      const ph = document.createElement('div');
+      ph.className = 'product-placeholder';
+      ph.setAttribute('aria-hidden', 'true');
+      ph.textContent = product.category === 'bags' ? '👜' : '👠';
+      wrap.appendChild(ph);
+    };
+    wrap.appendChild(img);
+  } else {
+    // No image uploaded yet — show a placeholder
+    const ph = document.createElement('div');
+    ph.className = 'product-placeholder';
+    ph.setAttribute('aria-hidden', 'true');
+    ph.textContent = product.category === 'bags' ? '👜' : '👠';
+    wrap.appendChild(ph);
+  }
+
+  if (product.tag) {
+    const tag = document.createElement('span');
+    tag.className   = 'product-tag';
+    tag.textContent = product.tag;
+    wrap.appendChild(tag);
+  }
+
+  return wrap;
+}
+
+function renderGrid(gridId, products) {
+  const container = document.getElementById(gridId);
+  if (!container) return;
+
+  if (!products.length) {
+    container.innerHTML = `<p class="products-empty">No products in this collection yet.</p>`;
+    return;
+  }
+
+  container.innerHTML = '';
+  const frag = document.createDocumentFragment();
+
+  products.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'product-card fade-in-up';
+    card.dataset.id = p.id;
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+
+    // Image area
+    card.appendChild(buildProductImageEl(p));
+
+    // Info area
+    const info = document.createElement('div');
+    info.className = 'product-info';
+
+    const cat   = document.createElement('div'); cat.className = 'product-category'; cat.textContent = p.category;
+    const name  = document.createElement('div'); name.className = 'product-name';    name.textContent = p.name;
+    const price = document.createElement('div'); price.className = 'product-price';  price.textContent = `KES ${Number(p.price).toLocaleString()}`;
+
+    info.appendChild(cat); info.appendChild(name); info.appendChild(price);
+    card.appendChild(info);
+
+    // Border decoration
+    const border = document.createElement('div');
+    border.className = 'product-3d-border';
+    border.setAttribute('aria-hidden', 'true');
+    card.appendChild(border);
+
+    // Hover overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'product-overlay';
+    overlay.textContent = 'Add to Selection';
+    overlay.setAttribute('role', 'button');
+    overlay.addEventListener('click', e => { e.stopPropagation(); addToCart(p); });
+    card.appendChild(overlay);
+
+    card.addEventListener('click', () => openModal(p));
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(p); }
+    });
+
+    frag.appendChild(card);
+    revealObserver.observe(card);
+  });
+
+  container.appendChild(frag);
+}
+
+// ============ PRODUCT MODAL ============
+function openModal(product) {
   currentModalProduct = product;
 
-  document.getElementById('modal-image').textContent = product.emoji;
-  document.getElementById('modal-category').textContent = product.category.toUpperCase();
-  document.getElementById('modal-name').textContent = product.name;
-  document.getElementById('modal-desc').textContent = product.description;
-  document.getElementById('modal-price').textContent = `KES ${product.price.toLocaleString()}`;
+  // Modal image
+  const modalImg = document.getElementById('modal-image');
+  modalImg.innerHTML = '';
+  if (product.image_url) {
+    const img = document.createElement('img');
+    img.src       = `${API_BASE}${product.image_url}`;
+    img.alt       = product.name;
+    img.className = 'modal-product-img';
+    img.onerror   = () => { modalImg.textContent = product.category === 'bags' ? '👜' : '👠'; };
+    modalImg.appendChild(img);
+  } else {
+    modalImg.textContent = product.category === 'bags' ? '👜' : '👠';
+    modalImg.style.fontSize = '100px';
+  }
 
-  const modal = document.getElementById('product-modal');
-  modal.classList.add('open');
+  document.getElementById('modal-category').textContent = product.category.toUpperCase();
+  document.getElementById('modal-name').textContent     = product.name;
+  document.getElementById('modal-desc').textContent     = product.description || '';
+  document.getElementById('modal-price').textContent    = `KES ${Number(product.price).toLocaleString()}`;
+
+  document.getElementById('product-modal').classList.add('open');
   document.getElementById('overlay').classList.add('active');
 }
 
@@ -264,28 +232,64 @@ function closeModal() {
   currentModalProduct = null;
 }
 
+// ============ INIT ============
 document.addEventListener('DOMContentLoaded', () => {
-  renderProducts();
+  loadProducts();
 
   document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-add-cart').addEventListener('click', () => {
+    if (currentModalProduct) { addToCart(currentModalProduct); closeModal(); }
+  });
+  document.getElementById('modal-whatsapp').addEventListener('click', () => {
+    if (currentModalProduct) { const p = currentModalProduct; closeModal(); openWaModal(p); }
+  });
 
- // DISABLED: Cart functionality (Client request - April 2026)
-document.getElementById('modal-add-cart').addEventListener('click', () => {
-  alert("Ordering is currently unavailable. Please check back soon.");
-});
+  // Contact form
+  const form = document.getElementById('contact-form');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn   = form.querySelector('.contact-submit');
+    const msgEl = document.getElementById('contact-msg');
+    const name    = document.getElementById('c-name').value.trim();
+    const email   = document.getElementById('c-email').value.trim();
+    const phone   = document.getElementById('c-phone').value.trim();
+    const subject = document.getElementById('c-subject').value;
+    const message = document.getElementById('c-message').value.trim();
 
-  // Observe section headers
-  document.querySelectorAll('.section-header, .about-text, .about-visual').forEach(el => {
-    el.classList.add('fade-in-up');
-    observer.observe(el);
+    if (!name || name.length < 2)   return showContactMsg('Please enter your full name.', 'error');
+    if (!isValidEmail(email))        return showContactMsg('Please enter a valid email address.', 'error');
+    if (!message || message.length < 10) return showContactMsg('Please enter a message (at least 10 characters).', 'error');
+
+    btn.textContent = 'Sending...'; btn.disabled = true;
+    try {
+      await API.submitContact({ name, email, phone, subject, message });
+      showContactMsg('✓ Message received. We will respond within 24 hours.', 'success');
+      form.reset();
+    } catch (err) {
+      showContactMsg(err.message || 'Could not send message. Please try again.', 'error');
+    } finally {
+      btn.textContent = 'Send Message'; btn.disabled = false;
+    }
+  });
+
+  document.querySelectorAll('.section-header, .about-text, .about-visual, .contact-left, .contact-right').forEach(el => {
+    el.classList.add('fade-in-up'); revealObserver.observe(el);
   });
 });
 
-// -------- PARALLAX HERO --------
+// ============ HELPERS ============
+function isValidEmail(e) { return /^[^\s@]{1,64}@[^\s@]{1,253}\.[^\s@]{2,}$/.test(e); }
+
+function showContactMsg(text, type) {
+  const el = document.getElementById('contact-msg');
+  el.textContent = text; el.className = `contact-response ${type}`; el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 6000);
+}
+
+// Parallax
 window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  const heroContent = document.querySelector('.hero-content');
-  const hero3d = document.querySelector('.hero-3d');
-  if (heroContent) heroContent.style.transform = `translateY(${scrollY * 0.3}px)`;
-  if (hero3d) hero3d.style.transform = `translateY(calc(-50% + ${scrollY * 0.5}px))`;
+  const y = window.scrollY;
+  const hc = document.querySelector('.hero-content'), h3 = document.querySelector('.hero-3d');
+  if (hc) hc.style.transform = `translateY(${y * 0.3}px)`;
+  if (h3) h3.style.transform = `translateY(calc(-50% + ${y * 0.5}px))`;
 });

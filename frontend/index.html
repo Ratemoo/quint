@@ -3,55 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QUINT ESSENTIALS — Luxury Bags & Shoes</title>
+  <!-- == SECURITY HEADERS via meta == -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <title>OBSIDIAN — Luxury Bags &amp; Shoes</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- TOP NOTICE BAR -->
-<div style="
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: #000;
-  color: #fff;
-  text-align: center;
-  padding: 6px 10px;
-  font-size: 13px;
-  z-index: 9999;
-  letter-spacing: 0.5px;
-">
-  📍 Pickup Station: Nairobi CBD | 🚚 Delivery Countrywide
-</div>
-
-  <!-- 3D Canvas Background -->
   <canvas id="bg-canvas"></canvas>
-
-  <!-- Cursor -->
   <div class="cursor" id="cursor"></div>
   <div class="cursor-trail" id="cursor-trail"></div>
 
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
     <div class="nav-logo">
-      <span class="logo-text">QUINT COLLECTIONS</span>
+      <span class="logo-text">OBSIDIAN</span>
       <span class="logo-sub">MAISON DE LUXE</span>
     </div>
     <ul class="nav-links">
-      <li><a href="#home" class="nav-link">Home</a></li>
-      <li><a href="#bags" class="nav-link">Bags</a></li>
-      <li><a href="#shoes" class="nav-link">Shoes</a></li>
-      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#home"    class="nav-link">Home</a></li>
+      <li><a href="#bags"   class="nav-link">Bags</a></li>
+      <li><a href="#shoes"  class="nav-link">Shoes</a></li>
+      <li><a href="#about"  class="nav-link">About</a></li>
       <li><a href="#contact" class="nav-link">Contact</a></li>
     </ul>
     <div class="nav-actions">
-      <!-- Disabled Cart -->
-      <!-- <button class="cart-btn" id="cart-toggle">
+      <button class="cart-btn" id="cart-toggle" aria-label="Open cart">
         <span class="cart-icon">◈</span>
         <span class="cart-count" id="cart-count">0</span>
-      </button> -->
+      </button>
       <a href="admin/login.html" class="admin-link">⟡ Admin</a>
     </div>
   </nav>
@@ -65,37 +49,37 @@
         <span class="line italic">Your</span>
         <span class="line">ELEGANCE</span>
       </h1>
-      <p class="hero-sub">Curated luxury bags & shoes for the discerning few</p>
+      <p class="hero-sub">Curated luxury bags &amp; shoes for the discerning few</p>
       <div class="hero-cta">
-        <a href="#bags" class="btn-primary">Explore Collection</a>
+        <a href="#bags"  class="btn-primary">Explore Collection</a>
         <a href="#shoes" class="btn-ghost">View Shoes</a>
       </div>
     </div>
-    <div class="hero-3d">
+    <div class="hero-3d" aria-hidden="true">
       <div class="floating-box box1"></div>
       <div class="floating-box box2"></div>
       <div class="floating-box box3"></div>
       <div class="hero-sphere"></div>
     </div>
-    <div class="scroll-indicator">
+    <div class="scroll-indicator" aria-hidden="true">
       <span>Scroll</span>
       <div class="scroll-line"></div>
     </div>
   </section>
 
   <!-- MARQUEE -->
-  <div class="marquee-strip">
+  <div class="marquee-strip" aria-hidden="true">
     <div class="marquee-track">
       <span>LUXURY</span><span>✦</span><span>ELEGANCE</span><span>✦</span>
-      <span>QUINT COLLECTIONS</span><span>✦</span><span>CRAFTED</span><span>✦</span>
+      <span>OBSIDIAN</span><span>✦</span><span>CRAFTED</span><span>✦</span>
       <span>PRESTIGE</span><span>✦</span><span>REFINED</span><span>✦</span>
       <span>LUXURY</span><span>✦</span><span>ELEGANCE</span><span>✦</span>
-      <span>QUINT COLLECTIONS</span><span>✦</span><span>CRAFTED</span><span>✦</span>
+      <span>OBSIDIAN</span><span>✦</span><span>CRAFTED</span><span>✦</span>
       <span>PRESTIGE</span><span>✦</span><span>REFINED</span><span>✦</span>
     </div>
   </div>
 
-  <!-- BAGS SECTION -->
+  <!-- BAGS -->
   <section class="products-section" id="bags">
     <div class="section-header">
       <p class="section-eyebrow">The Collection</p>
@@ -103,12 +87,15 @@
       <div class="section-line"></div>
     </div>
     <div class="products-grid" id="bags-grid">
-      <!-- Populated by JS -->
+      <div class="loading-grid">
+        <div class="skeleton-card"></div><div class="skeleton-card"></div>
+        <div class="skeleton-card"></div><div class="skeleton-card"></div>
+      </div>
     </div>
   </section>
 
   <!-- DIVIDER -->
-  <div class="section-divider">
+  <div class="section-divider" aria-hidden="true">
     <div class="divider-3d">
       <div class="d3-ring ring1"></div>
       <div class="d3-ring ring2"></div>
@@ -117,7 +104,7 @@
     <p class="divider-text">STEP INTO LUXURY</p>
   </div>
 
-  <!-- SHOES SECTION -->
+  <!-- SHOES -->
   <section class="products-section" id="shoes">
     <div class="section-header">
       <p class="section-eyebrow">The Collection</p>
@@ -125,7 +112,10 @@
       <div class="section-line"></div>
     </div>
     <div class="products-grid" id="shoes-grid">
-      <!-- Populated by JS -->
+      <div class="loading-grid">
+        <div class="skeleton-card"></div><div class="skeleton-card"></div>
+        <div class="skeleton-card"></div><div class="skeleton-card"></div>
+      </div>
     </div>
   </section>
 
@@ -135,76 +125,43 @@
       <div class="about-text">
         <p class="section-eyebrow">Our Story</p>
         <h2 class="about-title">CRAFTED FOR THE<br/><em>Extraordinary</em></h2>
-        <p class="about-body">
-          QUINT COLLECTIONS was born from a singular obsession — to create accessories that transcend trends. 
-          Each piece is a testament to meticulous craftsmanship, sourced from the world's finest 
-          ateliers and delivered to those who understand that true luxury is felt, not seen.
-        </p>
-        <p class="about-body">
-          Every bag. Every shoe. A statement. A legacy.
-        </p>
+        <p class="about-body">OBSIDIAN was born from a singular obsession — to create accessories that transcend trends.
+          Each piece is a testament to meticulous craftsmanship, sourced from the world's finest ateliers
+          and delivered to those who understand that true luxury is felt, not seen.</p>
+        <p class="about-body">Every bag. Every shoe. A statement. A legacy.</p>
       </div>
       <div class="about-visual">
-        <div class="about-card">
-          <div class="about-card-inner">
-            <div class="stat">100+</div>
-            <div class="stat-label">Exclusive Pieces</div>
-          </div>
-        </div>
-        <div class="about-card shift">
-          <div class="about-card-inner">
-            <div class="stat">2+</div>
-            <div class="stat-label">Years of Mastery</div>
-          </div>
-        </div>
-        <div class="about-card shift2">
-          <div class="about-card-inner">
-            <div class="stat">2+</div>
-            <div class="stat-label">Countries Served</div>
-          </div>
-        </div>
+        <div class="about-card"><div class="about-card-inner"><div class="stat">500+</div><div class="stat-label">Exclusive Pieces</div></div></div>
+        <div class="about-card shift"><div class="about-card-inner"><div class="stat">10+</div><div class="stat-label">Years of Mastery</div></div></div>
+        <div class="about-card shift2"><div class="about-card-inner"><div class="stat">50+</div><div class="stat-label">Countries Served</div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT SECTION -->
+  <!-- CONTACT -->
   <section class="contact-section" id="contact">
     <div class="contact-inner">
       <div class="contact-left">
         <p class="section-eyebrow">Get In Touch</p>
         <h2 class="contact-title">CONTACT<br/><em>Us</em></h2>
-        <p class="contact-body">
-          Whether you have a question about a piece, a bespoke enquiry, or simply wish to connect —
-          our team is here, always at your service.
-        </p>
+        <p class="contact-body">Whether you have a question about a piece, a bespoke enquiry, or simply wish to connect —
+          our team is here, always at your service.</p>
         <div class="contact-details">
           <div class="contact-item">
             <span class="contact-icon">◎</span>
-            <div>
-              <div class="contact-detail-label">Location</div>
-              <div class="contact-detail-value">Nairobi, Kenya</div>
-            </div>
+            <div><div class="contact-detail-label">Location</div><div class="contact-detail-value">Nairobi, Kenya</div></div>
           </div>
           <div class="contact-item">
             <span class="contact-icon">◎</span>
-            <div>
-              <div class="contact-detail-label">Email</div>
-              <div class="contact-detail-value">quintermokeira.a@gmail.com</div>
-            </div>
+            <div><div class="contact-detail-label">Email</div><div class="contact-detail-value">info@obsidian.co.ke</div></div>
           </div>
           <div class="contact-item">
             <span class="contact-icon">◎</span>
-            <div>
-              <div class="contact-detail-label">Phone / WhatsApp</div>
-              <div class="contact-detail-value">+254705525427</div>
-            </div>
+            <div><div class="contact-detail-label">WhatsApp</div><div class="contact-detail-value">+254 700 000 000</div></div>
           </div>
           <div class="contact-item">
             <span class="contact-icon">◎</span>
-            <div>
-              <div class="contact-detail-label">Hours</div>
-              <div class="contact-detail-value">Mon – Sat, 9am – 6pm EAT</div>
-            </div>
+            <div><div class="contact-detail-label">Hours</div><div class="contact-detail-value">Mon – Sat, 9am – 6pm EAT</div></div>
           </div>
         </div>
         <div class="contact-socials">
@@ -212,26 +169,26 @@
           <span class="social-sep">·</span>
           <a href="#" class="social-link">TikTok</a>
           <span class="social-sep">·</span>
-          <a href="#" class="social-link">WhatsApp</a>
+          <a href="#" class="social-link" id="whatsapp-general">WhatsApp</a>
         </div>
       </div>
 
       <div class="contact-right">
-        <form class="contact-form" id="contact-form" onsubmit="handleContactForm(event)">
+        <form class="contact-form" id="contact-form" novalidate>
           <div class="contact-form-group">
-            <label class="contact-label">Full Name</label>
-            <input type="text" class="contact-input" id="c-name" placeholder="Your name" required />
+            <label class="contact-label" for="c-name">Full Name</label>
+            <input type="text" class="contact-input" id="c-name" placeholder="Your name" maxlength="100" autocomplete="name" />
           </div>
           <div class="contact-form-group">
-            <label class="contact-label">Email Address</label>
-            <input type="email" class="contact-input" id="c-email" placeholder="your@email.com" required />
+            <label class="contact-label" for="c-email">Email Address</label>
+            <input type="email" class="contact-input" id="c-email" placeholder="your@email.com" maxlength="150" autocomplete="email" />
           </div>
           <div class="contact-form-group">
-            <label class="contact-label">Phone (Optional)</label>
-            <input type="tel" class="contact-input" id="c-phone" placeholder="+254 7XX XXX XXX" />
+            <label class="contact-label" for="c-phone">Phone (Optional)</label>
+            <input type="tel" class="contact-input" id="c-phone" placeholder="+254 7XX XXX XXX" maxlength="20" autocomplete="tel" />
           </div>
           <div class="contact-form-group">
-            <label class="contact-label">Subject</label>
+            <label class="contact-label" for="c-subject">Subject</label>
             <select class="contact-input contact-select" id="c-subject">
               <option value="enquiry">Product Enquiry</option>
               <option value="order">Order Status</option>
@@ -240,10 +197,10 @@
             </select>
           </div>
           <div class="contact-form-group">
-            <label class="contact-label">Message</label>
-            <textarea class="contact-input contact-textarea" id="c-message" placeholder="Tell us how we can help you..." required></textarea>
+            <label class="contact-label" for="c-message">Message</label>
+            <textarea class="contact-input contact-textarea" id="c-message" placeholder="Tell us how we can help you..." maxlength="1000"></textarea>
           </div>
-          <div id="contact-msg" class="contact-response" style="display:none"></div>
+          <div id="contact-msg" class="contact-response" style="display:none" role="alert"></div>
           <button type="submit" class="btn-primary contact-submit">Send Message</button>
         </form>
       </div>
@@ -254,7 +211,7 @@
   <footer class="footer">
     <div class="footer-top">
       <div class="footer-brand">
-        <div class="footer-logo">QUINT ESSENTIALS</div>
+        <div class="footer-logo">OBSIDIAN</div>
         <p>Where luxury meets legacy.</p>
       </div>
       <div class="footer-links">
@@ -271,20 +228,21 @@
       <div class="footer-links">
         <h4>Contact</h4>
         <a href="#">Nairobi, Kenya</a>
-        <a href="#">quintermokeira.a@gmail.com</a>
+        <a href="#">info@obsidian.co.ke</a>
+        <a href="#" id="footer-whatsapp">WhatsApp Us</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 QUINT ESSENTIALS. All rights reserved.</p>
+      <p>© 2025 OBSIDIAN. All rights reserved.</p>
       <p class="footer-tag">MAISON DE LUXE</p>
     </div>
   </footer>
 
   <!-- CART DRAWER -->
-  <div class="cart-drawer" id="cart-drawer">
+  <div class="cart-drawer" id="cart-drawer" role="dialog" aria-label="Your selection">
     <div class="cart-header">
       <h3>YOUR SELECTION</h3>
-      <button id="cart-close">✕</button>
+      <button id="cart-close" aria-label="Close cart">✕</button>
     </div>
     <div class="cart-items" id="cart-items">
       <p class="cart-empty">Your cart is empty.</p>
@@ -294,54 +252,55 @@
         <span>Total</span>
         <span id="cart-total-price">KES 0</span>
       </div>
-      <!-- DISABLED: Checkout -->
-    <button class="btn-primary full-width" disabled style="opacity:0.5; cursor:not-allowed;">
-      Checkout Unavailable
-    </button>
+      <!-- ORDER VIA WHATSAPP -->
+      <button class="btn-primary full-width whatsapp-order-btn" id="whatsapp-checkout" disabled>
+        Order via WhatsApp
+      </button>
+      <p class="cart-wa-note">You will be redirected to WhatsApp with your order details pre-filled.</p>
     </div>
   </div>
   <div class="overlay" id="overlay"></div>
 
   <!-- PRODUCT MODAL -->
-  <div class="modal" id="product-modal">
+  <div class="modal" id="product-modal" role="dialog" aria-modal="true">
     <div class="modal-inner">
-      <button class="modal-close" id="modal-close">✕</button>
-      <div class="modal-image" id="modal-image"></div>
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+      <div class="modal-image" id="modal-image" aria-hidden="true"></div>
       <div class="modal-details">
         <p class="modal-category" id="modal-category"></p>
         <h2 class="modal-name" id="modal-name"></h2>
         <p class="modal-desc" id="modal-desc"></p>
         <p class="modal-price" id="modal-price"></p>
-        <!-- DISABLED: Add to cart -->
-      <button class="btn-primary" disabled style="opacity:0.5; cursor:not-allowed;">
-        Ordering Coming Soon
-      </button>
+        <div class="modal-actions">
+          <button class="btn-primary" id="modal-add-cart">Add to Selection</button>
+          <button class="btn-ghost modal-wa-btn" id="modal-whatsapp">Order via WhatsApp</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <script src="js/products.js"></script>
-  <!-- <script src="js/cart.js"></script> -->
-  <script src="js/main.js"></script>
-  <script>
-    function handleContactForm(e) {
-      e.preventDefault();
-      const btn = document.querySelector('.contact-submit');
-      const msgEl = document.getElementById('contact-msg');
-      btn.textContent = 'Sending...';
-      btn.disabled = true;
+  <!-- WHATSAPP ORDER MODAL (name capture) -->
+  <div class="modal" id="wa-modal" role="dialog" aria-modal="true">
+    <div class="modal-inner wa-modal-inner">
+      <button class="modal-close" id="wa-modal-close" aria-label="Close">✕</button>
+      <div class="wa-modal-content">
+        <div class="wa-icon">✆</div>
+        <h2 class="wa-title">ORDER VIA WHATSAPP</h2>
+        <p class="wa-subtitle">Enter your name so we can personalise your order message.</p>
+        <div class="wa-form">
+          <label class="contact-label" for="wa-name">Your Name</label>
+          <input type="text" class="contact-input" id="wa-name" placeholder="e.g. Jane Doe" maxlength="80" autocomplete="name" />
+          <div id="wa-error" class="wa-error" style="display:none"></div>
+          <button class="btn-primary full-width" id="wa-confirm-btn">Open WhatsApp</button>
+        </div>
+        <p class="wa-disclaimer">This will open WhatsApp with your order details pre-filled. No payment is taken here.</p>
+      </div>
+    </div>
+  </div>
 
-      // Simulate send (replace with real API call when backend is ready)
-      setTimeout(() => {
-        msgEl.style.display = 'block';
-        msgEl.className = 'contact-response success';
-        msgEl.textContent = '✓ Message received. We will get back to you within 24 hours.';
-        document.getElementById('contact-form').reset();
-        btn.textContent = 'Send Message';
-        btn.disabled = false;
-        setTimeout(() => { msgEl.style.display = 'none'; }, 6000);
-      }, 1200);
-    }
-  </script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QUINT ESSENTIALS — Admin Access</title>
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>OBSIDIAN — Admin Access</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="admin.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet" />
 </head>
 <body class="admin-body">
@@ -16,38 +17,25 @@
   <div class="cursor-trail" id="cursor-trail"></div>
 
   <div class="login-container">
-    <div class="login-decoration"></div>
-
+    <div class="login-decoration" aria-hidden="true"></div>
     <div class="login-box">
       <div class="login-logo">
-        <span class="logo-text">QUINT ESSENTIALS</span>
+        <span class="logo-text">OBSIDIAN</span>
         <span class="logo-sub">ADMIN PORTAL</span>
       </div>
-
       <div class="login-divider"></div>
-
       <p class="login-subtitle">Restricted Access. Enter your credentials.</p>
 
       <div class="login-form">
         <div class="form-group">
-          <label class="form-label">ACCESS CODE</label>
-          <input
-            type="password"
-            id="password-input"
-            class="form-input"
-            placeholder="••••••••"
-            autocomplete="off"
-          />
+          <label class="form-label" for="password-input">Access Code</label>
+          <input type="password" id="password-input" class="form-input"
+            placeholder="••••••••" autocomplete="current-password"
+            maxlength="128" aria-describedby="login-error" />
           <div class="input-line"></div>
         </div>
-
-        <div id="login-error" class="login-error" style="display:none">
-          ✕ Invalid access code. Try again.
-        </div>
-
-        <button class="btn-primary admin-submit" id="login-btn">
-          Enter Portal
-        </button>
+        <div id="login-error" class="login-error" style="display:none" role="alert"></div>
+        <button class="btn-primary admin-submit" id="login-btn">Enter Portal</button>
       </div>
 
       <div class="login-back">
@@ -56,75 +44,87 @@
     </div>
   </div>
 
+  <script src="../js/config.js"></script>
+  <script src="../js/api.js"></script>
   <script>
     // ---- Cursor ----
-    const cursor = document.getElementById('cursor');
-    const trail = document.getElementById('cursor-trail');
-    let mx = 0, my = 0, tx = 0, ty = 0;
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-    });
-    (function animT() {
-      tx += (mx - tx) * 0.15; ty += (my - ty) * 0.15;
-      trail.style.left = tx + 'px'; trail.style.top = ty + 'px';
-      requestAnimationFrame(animT);
-    })();
+    const cur = document.getElementById('cursor');
+    const tr  = document.getElementById('cursor-trail');
+    let mx=0,my=0,tx=0,ty=0;
+    document.addEventListener('mousemove', e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+    (function at(){tx+=(mx-tx)*.15;ty+=(my-ty)*.15;tr.style.left=tx+'px';tr.style.top=ty+'px';requestAnimationFrame(at);})();
 
     // ---- Canvas ----
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+    const cv=document.getElementById('bg-canvas'),ctx=cv.getContext('2d');
+    cv.width=innerWidth;cv.height=innerHeight;
+    window.addEventListener('resize',()=>{cv.width=innerWidth;cv.height=innerHeight;});
+    const pts=Array.from({length:40},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,life:Math.random()*Math.PI*2}));
+    (function draw(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.life+=.015;if(p.x<0)p.x=cv.width;if(p.x>cv.width)p.x=0;if(p.y<0)p.y=cv.height;if(p.y>cv.height)p.y=0;pts.forEach(q=>{const d=Math.hypot(q.x-p.x,q.y-p.y);if(d<100){ctx.strokeStyle=`rgba(255,255,255,${(1-d/100)*.06})`;ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}});ctx.beginPath();ctx.arc(p.x,p.y,1.5,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${.1*(.5+.5*Math.sin(p.life))})`;ctx.fill();});requestAnimationFrame(draw);})();
 
-    const pts = Array.from({length: 40}, () => ({
-      x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-      vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4,
-      life: Math.random()*Math.PI*2
-    }));
+    // ---- Brute-force protection (client-side) ----
+    let attempts = 0;
+    let lockUntil = 0;
 
-    (function draw() {
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      pts.forEach(p => {
-        p.x += p.vx; p.y += p.vy; p.life += 0.015;
-        if (p.x<0) p.x=canvas.width; if (p.x>canvas.width) p.x=0;
-        if (p.y<0) p.y=canvas.height; if (p.y>canvas.height) p.y=0;
-        pts.forEach(q => {
-          const d = Math.hypot(q.x-p.x, q.y-p.y);
-          if (d < 100) {
-            ctx.strokeStyle = `rgba(255,255,255,${(1-d/100)*0.06})`;
-            ctx.lineWidth = 0.5;
-            ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
-          }
-        });
-        ctx.beginPath(); ctx.arc(p.x,p.y,1.5,0,Math.PI*2);
-        ctx.fillStyle = `rgba(255,255,255,${0.1*(0.5+0.5*Math.sin(p.life))})`;
-        ctx.fill();
-      });
-      requestAnimationFrame(draw);
-    })();
-
-    // ---- Auth ----
-    
     async function attemptLogin() {
-      const input = document.getElementById('password-input').value;
+      const now = Date.now();
+      if (now < lockUntil) {
+        const secs = Math.ceil((lockUntil - now) / 1000);
+        showError(`Too many attempts. Try again in ${secs}s.`);
+        return;
+      }
 
-      const res = await fetch('http://localhost:3000/api/admin/login', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({password: input})
-      });
+      const input  = document.getElementById('password-input').value;
+      const btn    = document.getElementById('login-btn');
+      const errEl  = document.getElementById('login-error');
+      errEl.style.display = 'none';
 
-      if (res.ok) {
-        const data = await res.json();
-        localStorage.setItem('admin_token', data.token);
-        sessionStorage.setItem('quint_auth', 'true');
-        window.location.href = 'dashboard.html';
-      } else {
-        document.getElementById('login-error').style.display = 'block';
+      if (!input) { showError('Please enter your access code.'); return; }
+
+      btn.textContent = 'Verifying...';
+      btn.disabled    = true;
+
+      try {
+        const data = await API.adminLogin(input);
+        // Store token in sessionStorage (cleared on tab close)
+        sessionStorage.setItem(OBSIDIAN_CONFIG.SESSION_KEY, data.token);
+        attempts = 0;
+        btn.textContent = 'Access Granted ✓';
+        btn.style.color = '#c9a84c';
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 600);
+      } catch (err) {
+        attempts++;
+        document.getElementById('password-input').value = '';
+        document.getElementById('password-input').classList.add('shake');
+        setTimeout(() => document.getElementById('password-input').classList.remove('shake'), 500);
+
+        if (attempts >= 5) {
+          lockUntil = Date.now() + 60_000; // 60s lockout
+          showError('Too many failed attempts. Locked for 60 seconds.');
+        } else {
+          showError(`✕ Invalid access code. ${5 - attempts} attempt(s) remaining.`);
+        }
+
+        btn.textContent = 'Enter Portal';
+        btn.disabled    = false;
+        btn.style.color = '';
       }
     }
 
+    function showError(msg) {
+      const el = document.getElementById('login-error');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    document.getElementById('login-btn').addEventListener('click', attemptLogin);
+    document.getElementById('password-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') attemptLogin();
+    });
+
+    // Redirect if already logged in
+    if (sessionStorage.getItem(OBSIDIAN_CONFIG.SESSION_KEY)) {
+      window.location.href = 'dashboard.html';
+    }
   </script>
 </body>
 </html>

@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QUINT — Admin Dashboard</title>
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>OBSIDIAN — Admin Dashboard</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="admin.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet" />
 </head>
 <body class="admin-body dashboard-body">
@@ -17,44 +18,33 @@
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-logo">
-      <span class="logo-text" style="font-size:22px;letter-spacing:6px;">QUINT</span>
+      <span class="logo-text" style="font-size:22px;letter-spacing:6px;">OBSIDIAN</span>
       <span class="logo-sub">ADMIN</span>
     </div>
-
     <nav class="sidebar-nav">
       <a class="sidebar-link active" data-tab="products">⬡ Products</a>
       <a class="sidebar-link" data-tab="add">⊕ Add Product</a>
+      <a class="sidebar-link" data-tab="contacts">✉ Messages</a>
       <a class="sidebar-link" data-tab="security">⟡ Security</a>
     </nav>
-
     <div class="sidebar-footer">
       <a href="../index.html" class="sidebar-back">← View Store</a>
       <button id="logout-btn" class="sidebar-logout">Logout</button>
     </div>
   </aside>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN -->
   <main class="dashboard-main">
 
-    <!-- HEADER -->
     <div class="dashboard-header">
       <div>
         <h1 class="dashboard-title">Dashboard</h1>
-        <p class="dashboard-sub">Manage your QUINT collection</p>
+        <p class="dashboard-sub">Manage your OBSIDIAN collection</p>
       </div>
       <div class="dashboard-stats">
-        <div class="stat-pill">
-          <span class="stat-num" id="stat-total">—</span>
-          <span class="stat-label">Total Products</span>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-num" id="stat-bags">—</span>
-          <span class="stat-label">Bags</span>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-num" id="stat-shoes">—</span>
-          <span class="stat-label">Shoes</span>
-        </div>
+        <div class="stat-pill"><span class="stat-num" id="stat-total">—</span><span class="stat-label">Total Products</span></div>
+        <div class="stat-pill"><span class="stat-num" id="stat-bags">—</span><span class="stat-label">Bags</span></div>
+        <div class="stat-pill"><span class="stat-num" id="stat-shoes">—</span><span class="stat-label">Shoes</span></div>
       </div>
     </div>
 
@@ -68,16 +58,13 @@
           <button class="filter-btn" data-filter="shoes">Shoes</button>
         </div>
       </div>
+      <div id="products-load-error" class="admin-api-error" style="display:none"></div>
       <div class="admin-table-wrapper">
         <table class="admin-table" id="products-table">
           <thead>
             <tr>
-              <th>Icon</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Price (KES)</th>
-              <th>Tag</th>
-              <th>Actions</th>
+              <th>Image</th><th>Name</th><th>Category</th>
+              <th>Price (KES)</th><th>Tag</th><th>Actions</th>
             </tr>
           </thead>
           <tbody id="products-tbody"></tbody>
@@ -85,63 +72,88 @@
       </div>
     </div>
 
-    <!-- TAB: ADD PRODUCT -->
+    <!-- TAB: ADD / EDIT PRODUCT -->
     <div class="tab-content" id="tab-add">
       <h2 class="tab-title" id="form-title">Add New Product</h2>
-      <div class="product-form" id="product-form">
+      <div class="product-form">
         <input type="hidden" id="edit-id" />
-
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Product Name</label>
-            <input type="text" id="f-name" class="form-input" placeholder="e.g. Noir Tote Classique" />
+            <label class="form-label" for="f-name">Product Name *</label>
+            <input type="text" id="f-name" class="form-input" placeholder="e.g. Noir Tote Classique" maxlength="120" />
           </div>
           <div class="form-group">
-            <label class="form-label">Category</label>
+            <label class="form-label" for="f-category">Category *</label>
             <select id="f-category" class="form-input form-select">
               <option value="bags">Bags</option>
               <option value="shoes">Shoes</option>
             </select>
           </div>
         </div>
-
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Price (KES)</label>
-            <input type="number" id="f-price" class="form-input" placeholder="e.g. 45000" />
+            <label class="form-label" for="f-price">Price (KES) *</label>
+            <input type="number" id="f-price" class="form-input" placeholder="e.g. 45000" min="1" max="10000000" />
           </div>
           <div class="form-group">
-            <label class="form-label">Images</label>
-            <input type="file" id="f-image" />
-            <button id="save-product-btn">Save Product</button>
-
-            <table>
-              <tbody id="products-tbody"></tbody>
-            </table>
+            <label class="form-label" for="f-tag">Tag (Optional)</label>
+            <select id="f-tag" class="form-input form-select">
+              <option value="">None</option>
+              <option value="New">New</option>
+              <option value="Bestseller">Bestseller</option>
+              <option value="Limited">Limited</option>
+            </select>
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Tag (Optional)</label>
-          <select id="f-tag" class="form-input form-select">
-            <option value="">None</option>
-            <option value="New">New</option>
-            <option value="Bestseller">Bestseller</option>
-            <option value="Limited">Limited</option>
-          </select>
+        <!-- IMAGE UPLOAD -->
+        <div class="form-group image-upload-group" style="margin-bottom:24px">
+          <label class="form-label">Product Image</label>
+          <div class="image-upload-area" id="image-upload-area">
+            <div class="image-upload-preview" id="image-preview-wrap">
+              <div class="image-placeholder" id="image-placeholder">
+                <span class="upload-icon">⊕</span>
+                <span class="upload-hint">Click or drag an image here</span>
+                <span class="upload-hint-sub">JPEG · PNG · WebP · Max 8 MB</span>
+              </div>
+              <img id="image-preview" src="" alt="Preview" style="display:none" />
+            </div>
+            <div class="image-upload-actions">
+              <button type="button" class="btn-ghost" id="choose-image-btn">Choose Image</button>
+              <button type="button" class="btn-ghost" id="remove-image-btn" style="display:none;color:#ff8888;border-color:rgba(255,68,68,0.3)">Remove Image</button>
+            </div>
+            <input type="file" id="f-image" accept="image/jpeg,image/png,image/webp" style="display:none" />
+          </div>
+          <p class="image-upload-note" id="current-image-note" style="display:none">
+            Current image will be kept if no new image is selected.
+          </p>
         </div>
-
-        <div class="form-group">
-          <label class="form-label">Description</label>
-          <textarea id="f-description" class="form-input form-textarea" placeholder="Describe this product..."></textarea>
+        <div class="form-group" style="margin-bottom:24px">
+          <label class="form-label" for="f-description">Description *</label>
+          <textarea id="f-description" class="form-input form-textarea" placeholder="Describe this product..." maxlength="1000"></textarea>
         </div>
-
         <div class="form-actions">
           <button class="btn-primary" id="save-product-btn">Save Product</button>
           <button class="btn-ghost" id="cancel-edit-btn" style="display:none">Cancel Edit</button>
         </div>
+        <div id="form-message" class="form-message" style="display:none" role="alert"></div>
+      </div>
+    </div>
 
-        <div id="form-message" class="form-message" style="display:none"></div>
+    <!-- TAB: CONTACT MESSAGES -->
+    <div class="tab-content" id="tab-contacts">
+      <div class="tab-toolbar">
+        <h2 class="tab-title">Contact Messages</h2>
+        <button class="filter-btn active" id="refresh-contacts-btn">↺ Refresh</button>
+      </div>
+      <div id="contacts-load-error" class="admin-api-error" style="display:none"></div>
+      <div class="admin-table-wrapper">
+        <table class="admin-table" id="contacts-table">
+          <thead>
+            <tr><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Date</th></tr>
+          </thead>
+          <tbody id="contacts-tbody"></tbody>
+        </table>
       </div>
     </div>
 
@@ -149,24 +161,19 @@
     <div class="tab-content" id="tab-security">
       <h2 class="tab-title">Change Password</h2>
       <div class="product-form" style="max-width:480px">
-
-        <div class="form-group">
-          <label class="form-label">Current Password</label>
-          <input type="password" id="s-current" class="form-input" placeholder="••••••••" />
+        <div class="form-group" style="margin-bottom:24px">
+          <label class="form-label" for="s-current">Current Password</label>
+          <input type="password" id="s-current" class="form-input" placeholder="••••••••" maxlength="128" autocomplete="current-password" />
         </div>
-
-        <div class="form-group">
-          <label class="form-label">New Password</label>
-          <input type="password" id="s-new" class="form-input" placeholder="Min. 8 characters" />
+        <div class="form-group" style="margin-bottom:24px">
+          <label class="form-label" for="s-new">New Password</label>
+          <input type="password" id="s-new" class="form-input" placeholder="Min. 8 characters" maxlength="128" autocomplete="new-password" />
         </div>
-
-        <div class="form-group">
-          <label class="form-label">Confirm New Password</label>
-          <input type="password" id="s-confirm" class="form-input" placeholder="Repeat new password" />
+        <div class="form-group" style="margin-bottom:24px">
+          <label class="form-label" for="s-confirm">Confirm New Password</label>
+          <input type="password" id="s-confirm" class="form-input" placeholder="Repeat new password" maxlength="128" autocomplete="new-password" />
         </div>
-
-        <div id="security-message" class="form-message" style="display:none"></div>
-
+        <div id="security-message" class="form-message" style="display:none" role="alert"></div>
         <button class="btn-primary" id="change-pass-btn">Update Password</button>
       </div>
     </div>
@@ -174,7 +181,7 @@
   </main>
 
   <!-- DELETE CONFIRM MODAL -->
-  <div class="delete-modal" id="delete-modal">
+  <div class="delete-modal" id="delete-modal" role="dialog" aria-modal="true">
     <div class="delete-modal-box">
       <h3>CONFIRM DELETE</h3>
       <p id="delete-modal-name"></p>
@@ -187,7 +194,17 @@
   </div>
   <div class="overlay" id="overlay"></div>
 
-  <script src="../js/products.js"></script>
+  <style>
+    .admin-api-error {
+      color: #ff8888; font-size: 12px; letter-spacing: 1px;
+      padding: 14px 18px; background: rgba(255,68,68,0.06);
+      border: 1px solid rgba(255,68,68,0.2); margin-bottom: 20px;
+    }
+    .contact-row-msg { font-size: 11px; color: var(--mid-grey); max-width: 260px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  </style>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/api.js"></script>
   <script src="dashboard.js"></script>
 </body>
 </html>
