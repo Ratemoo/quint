@@ -49,14 +49,16 @@ app.use(helmet({
 // 2. CORS
 const allowedOrigins = (process.env.FRONTEND_URL || 'http://127.0.0.1:5500')
   .split(',')
-  .map(o => o.trim());
+  .map(o => o.trim().replace(/\/$/, '')); // strip trailing slashes
 
 app.use(cors({
   origin: (origin, cb) => {
     // ✅ Always allow requests with no origin (Postman, server-to-server, health checks)
     if (!origin) return cb(null, true);
 
-    if (allowedOrigins.includes(origin)) {
+    // Normalise incoming origin (strip trailing slash just in case)
+    const normOrigin = origin.replace(/\/$/, '');
+    if (allowedOrigins.includes(normOrigin)) {
       return cb(null, true);
     }
 
