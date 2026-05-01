@@ -1,6 +1,6 @@
 node_modules/
 .env
-obsidian.db
-obsidian.db-shm
-obsidian.db-wal
+quint.db
+quint.db-shm
+quint.db-wal
 *.log
