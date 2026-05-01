@@ -10,7 +10,7 @@ const QUINT_CONFIG = Object.freeze({
   // ★ Backend API base URL
   // Development:  'http://localhost:3000'
   // Production:   'https://api.yourdomain.co.ke'
-  API_BASE: 'https://quint-essentials.onrender.com/',
+  API_BASE: 'https://quint-essentials.onrender.com',
 
   // Admin session key (do not change)
   SESSION_KEY: 'quint_session',
