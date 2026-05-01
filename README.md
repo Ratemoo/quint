@@ -8,23 +8,23 @@ Black & white 3D luxury e-commerce. Orders go via WhatsApp. No payment gateway.
 
 ```
 luxe-v3/
-├── index.html              ← Storefront
-├── css/style.css           ← All styles
+├── index.html              
+├── css/style.css           
 ├── js/
-│   ├── config.js           ← ★ Set WhatsApp number + API URL here
-│   ├── api.js              ← All HTTP calls (application → backend)
-│   ├── cart.js             ← Cart + WhatsApp order builder
-│   └── main.js             ← Products, modal, contact form, canvas
+│   ├── config.js           
+│   ├── api.js              
+│   ├── cart.js             
+│   └── main.js             
 ├── admin/
-│   ├── login.html          ← Admin login (wired to backend)
-│   ├── dashboard.html      ← Admin panel
-│   ├── admin.css           ← Admin styles
-│   └── dashboard.js        ← CRUD wired to backend API
+│   ├── login.html          
+│   ├── dashboard.html      
+│   ├── admin.css           
+│   └── dashboard.js        
 └── backend/
-    ├── server.js           ← Express + all security middleware
-    ├── db.js               ← SQLite schema (database layer)
-    ├── auth.js             ← HMAC token sign/verify
-    ├── seed.js             ← Load default 12 products
+    ├── server.js           
+    ├── db.js               
+    ├── auth.js             
+    ├── seed.js             
     ├── package.json
 ```
 
