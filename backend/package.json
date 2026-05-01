@@ -1,7 +1,7 @@
 {
-  "name": "obsidian-backend",
+  "name": "quint-backend",
   "version": "3.0.0",
-  "description": "OBSIDIAN Luxury Store — Secure Backend API with SQLite + Image Uploads",
+  "description": "QUINT ESSENTIALS Luxury Store — Secure Backend API with SQLite + Image Uploads",
   "main": "server.js",
   "scripts": {
     "start":  "node server.js",

@@ -1,5 +1,5 @@
 // ============================================
-// OBSIDIAN — Auth Helpers
+// QUINT ESSENTIALS — Auth Helpers
 // Simple HMAC-signed tokens (no external JWT lib needed)
 // ============================================
 

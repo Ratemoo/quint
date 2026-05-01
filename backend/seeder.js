@@ -1,5 +1,5 @@
 // ============================================
-// OBSIDIAN — Seed Script v3
+// QUINT ESSENTIALS — Seed Script v3
 // Uses image_url instead of emoji
 // Run once: node seed.js
 // ============================================
@@ -26,7 +26,7 @@ function seed() {
   const db = getDb();
   const { n } = db.prepare('SELECT COUNT(*) as n FROM products').get();
   if (n > 0) {
-    console.log(`✓ Already seeded (${n} products). Delete obsidian.db and re-run to reset.`);
+    console.log(`✓ Already seeded (${n} products). Delete quint.db and re-run to reset.`);
     return;
   }
   const ins = db.prepare(`

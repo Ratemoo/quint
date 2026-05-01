@@ -1,5 +1,5 @@
 // ============================================
-// OBSIDIAN — Database Layer (SQLite)
+// QUINT ESSENTIALS — Database Layer (SQLite)
 // All DB access goes through this module.
 // ============================================
 
@@ -7,7 +7,7 @@ const Database = require('better-sqlite3');
 const bcrypt   = require('bcrypt');
 const path     = require('path');
 
-const DB_PATH = path.join(__dirname, 'obsidian.db');
+const DB_PATH = path.join(__dirname, 'quint.db');
 let db;
 
 function getDb() {
@@ -68,7 +68,7 @@ function initSchema() {
   // Hash and store initial password if not set
   const pw = db.prepare("SELECT value FROM settings WHERE key = 'admin_password_hash'").get();
   if (!pw) {
-    const initial = process.env.ADMIN_INITIAL_PASSWORD || 'obsidian2025!';
+    const initial = process.env.ADMIN_INITIAL_PASSWORD || 'quint2025!';
     const hash    = bcrypt.hashSync(initial, 12);
     db.prepare("INSERT INTO settings (key, value) VALUES ('admin_password_hash', ?)").run(hash);
     console.log('✓ Admin password initialised (hashed).');

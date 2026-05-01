@@ -1,5 +1,5 @@
 // ============================================
-// OBSIDIAN — Secure Express API Server v3
+// QUINT ESSENTIALS — Secure Express API Server v3
 // Layers: Route → Validation → Business → DB
 // Image uploads: multer + sharp (resize/compress)
 // ============================================
@@ -508,7 +508,7 @@ app.use((err, _req, res, _next) => {
 // ============================================================
 app.listen(PORT, '127.0.0.1', () => {
   console.log('');
-  console.log('  🖤  OBSIDIAN Backend v3');
+  console.log('  🖤  QUINT ESSENTIALS Backend v3');
   console.log(`  ✓   http://127.0.0.1:${PORT}`);
   console.log(`  ✓   CORS: ${allowedOrigins.join(', ')}`);
   console.log(`  ✓   Uploads: ${UPLOAD_DIR}`);
