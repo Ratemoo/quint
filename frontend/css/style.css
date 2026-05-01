@@ -1,5 +1,5 @@
 /* ============================================
-   OBSIDIAN — Luxury Store CSS
+   QUINT ESSENTIALS — Luxury Store CSS
    Black & White Luxury 3D Theme
    ============================================ */
 
@@ -85,6 +85,7 @@ body:hover .cursor { opacity: 1; }
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255,255,255,0.06);
   transition: all 0.4s ease;
+  margin-top: 30px;
 }
 
 .navbar.scrolled {

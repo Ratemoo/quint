@@ -1,10 +1,10 @@
 // ============================================
-// OBSIDIAN — API Layer (Application ↔ Backend)
+// QUINT ESSENTIALS — API Layer (Application ↔ Backend)
 // All HTTP calls go through here.
 // ============================================
 
 const API = (() => {
-  const BASE = OBSIDIAN_CONFIG.API_BASE;
+  const BASE = QUINT_CONFIG.API_BASE;
 
   // JSON fetch wrapper (for non-file routes)
   async function request(method, path, body = null, authToken = null) {

@@ -1,13 +1,13 @@
 // ============================================
-// OBSIDIAN — Admin Dashboard JS v3
+// QUINT ESSENTIALS — Admin Dashboard JS v3
 // Product CRUD with image upload support
 // ============================================
 
 // ---- Auth Guard ----
-const adminToken = sessionStorage.getItem(OBSIDIAN_CONFIG.SESSION_KEY);
+const adminToken = sessionStorage.getItem(QUINT_CONFIG.SESSION_KEY);
 if (!adminToken) window.location.replace('login.html');
 
-const API_BASE = OBSIDIAN_CONFIG.API_BASE;
+const API_BASE = QUINT_CONFIG.API_BASE;
 
 // ---- Cursor ----
 const cur = document.getElementById('cursor'), tr = document.getElementById('cursor-trail');
@@ -386,7 +386,7 @@ document.getElementById('change-pass-btn').addEventListener('click', async () =>
   try {
     await API.adminLogin(current); // Verify current password
     await API.adminChangePassword(adminToken, newPass);
-    sessionStorage.setItem(OBSIDIAN_CONFIG.SESSION_KEY, newPass);
+    sessionStorage.setItem(QUINT_CONFIG.SESSION_KEY, newPass);
     showMsg(msgEl, '✓ Password updated successfully.', 'success');
     ['s-current','s-new','s-confirm'].forEach(id => document.getElementById(id).value = '');
   } catch (err) {
@@ -398,7 +398,7 @@ document.getElementById('change-pass-btn').addEventListener('click', async () =>
 
 // ============ LOGOUT ============
 document.getElementById('logout-btn').addEventListener('click', () => {
-  sessionStorage.removeItem(OBSIDIAN_CONFIG.SESSION_KEY);
+  sessionStorage.removeItem(QUINT_CONFIG.SESSION_KEY);
   window.location.replace('login.html');
 });
 

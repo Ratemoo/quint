@@ -1,5 +1,5 @@
 // ============================================
-// OBSIDIAN — Cart + WhatsApp Order Flow
+// QUINT ESSENTIALS — Cart + WhatsApp Order Flow
 // ============================================
 
 // ---- Cart State ----
@@ -7,14 +7,14 @@ let cart = [];
 
 function loadCart() {
   try {
-    cart = JSON.parse(sessionStorage.getItem('obsidian_cart') || '[]');
+    cart = JSON.parse(sessionStorage.getItem('quint_cart') || '[]');
   } catch {
     cart = [];
   }
 }
 
 function saveCart() {
-  sessionStorage.setItem('obsidian_cart', JSON.stringify(cart));
+  sessionStorage.setItem('quint_cart', JSON.stringify(cart));
 }
 
 // ---- Cart Operations ----
@@ -121,7 +121,7 @@ function buildCartWaMessage(customerName) {
   const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
 
   return [
-    `Hello OBSIDIAN! 👋`,
+    `Hello QUINT ESSENTIALS! 👋`,
     ``,
     `My name is *${name}* and I'd like to place an order:`,
     ``,
@@ -136,7 +136,7 @@ function buildCartWaMessage(customerName) {
 // Build the WhatsApp message for a single product enquiry
 function buildProductWaMessage(customerName, product) {
   return [
-    `Hello OBSIDIAN! 👋`,
+    `Hello QUINT ESSENTIALS! 👋`,
     ``,
     `My name is *${customerName.trim()}* and I'm interested in:`,
     ``,
@@ -193,7 +193,7 @@ function confirmWaOrder() {
     return;
   }
 
-  const phone = OBSIDIAN_CONFIG.WHATSAPP_NUMBER;
+  const phone = QUINT_CONFIG.WHATSAPP_NUMBER;
   const url   = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
   closeWaModal();
@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // General WhatsApp links
   const waGeneral = document.getElementById('whatsapp-general');
   const waFooter  = document.getElementById('footer-whatsapp');
-  const waUrl     = `https://wa.me/${OBSIDIAN_CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent('Hello OBSIDIAN! I have an enquiry.')}`;
+  const waUrl     = `https://wa.me/${QUINT_CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent('Hello QUINT ESSENTIALS! I have an enquiry.')}`;
   if (waGeneral) waGeneral.href = waUrl;
   if (waFooter)  waFooter.href  = waUrl;
 

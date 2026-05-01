@@ -1,9 +1,9 @@
 // ============================================
-// OBSIDIAN — Main JS
+// QUINT ESSENTIALS — Main JS
 // Renders products with real images from API
 // ============================================
 
-const API_BASE = OBSIDIAN_CONFIG.API_BASE;
+const API_BASE = QUINT_CONFIG.API_BASE;
 
 // ============ CUSTOM CURSOR ============
 const cursor      = document.getElementById('cursor');

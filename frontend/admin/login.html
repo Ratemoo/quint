@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-Frame-Options" content="DENY" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <title>OBSIDIAN — Admin Access</title>
+  <title>QUINT ESSENTIALS — Admin Access</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="admin.css" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet" />
@@ -20,7 +20,7 @@
     <div class="login-decoration" aria-hidden="true"></div>
     <div class="login-box">
       <div class="login-logo">
-        <span class="logo-text">OBSIDIAN</span>
+        <span class="logo-text">QUINT ESSENTIALS</span>
         <span class="logo-sub">ADMIN PORTAL</span>
       </div>
       <div class="login-divider"></div>
@@ -86,7 +86,7 @@
       try {
         const data = await API.adminLogin(input);
         // Store token in sessionStorage (cleared on tab close)
-        sessionStorage.setItem(OBSIDIAN_CONFIG.SESSION_KEY, data.token);
+        sessionStorage.setItem(QUINT_CONFIG.SESSION_KEY, data.token);
         attempts = 0;
         btn.textContent = 'Access Granted ✓';
         btn.style.color = '#c9a84c';
@@ -122,7 +122,7 @@
     });
 
     // Redirect if already logged in
-    if (sessionStorage.getItem(OBSIDIAN_CONFIG.SESSION_KEY)) {
+    if (sessionStorage.getItem(QUINT_CONFIG.SESSION_KEY)) {
       window.location.href = 'dashboard.html';
     }
   </script>
