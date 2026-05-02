@@ -1,4 +1,6 @@
-# OBSIDIAN — Luxury Store (v3)
+AUTHOR- Brian Ratemo Magucha
+
+# QUINT ESSENTIALS — Luxury Store 
 
 Black & white 3D luxury e-commerce. Orders go via WhatsApp. No payment gateway.
 
